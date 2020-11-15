@@ -1,0 +1,47 @@
+Title: Osmosis
+
+Equipment:
+•	Potato
+•	Cork borer or potato chipper/ vegetable stick cutter
+•	Ruler
+•	10 cm3 measuring cylinder
+•	Labels
+•	Boiling tube x 3
+• Test tube rack
+•	Kitchen Paper Towels
+•	Scalpel
+•	White Tile
+•	Sugar solutions (0.1 M - 0.5 M)
+•	Distilled water
+•	Balance
+
+
+Method:
+1.	Use a cork borer to cut three potato cylinders of the same diameter.
+2.	Trim the cylinders so that they are all the same length (about 3 cm).
+3.	Accurately measure and record the length and mass of each potato cylinder.
+4. Label first, second and third boiling tubes '0.5 M', '0.25 M' and 'Water' respectively.
+4.	Measure 10 cm3 of the 0.5 M sugar solution and put into the first boiling tube.
+5.	Measure 10 cm3 of 0.25 M sugar solution and put into the second boiling tube.
+6.	Measure 10 cm3 of the distilled water and put into the third boiling tube - This is the CONTROL.
+7.	Add one potato cylinder to each boiling tube (make sure you know the length and mass of each potato cylinder in each boiling tube).
+8.	Record the lengths and masses of each potato cylinder in a table such as the one below.
+
+	0.5 M sugar solution	0.25 M sugar solution	Distilled water
+Initial length (mm)
+Final length (mm)
+Change in length (mm)
+Initial mass (g)
+Final mass in (g)
+Change in mass in (g)
+
+9.	Place boiling tubes in test tube rack and leave overnight.
+10.	Remove the cylinders from the boiling tubes and carefully blot them dry with the paper towels.
+11.	Re-measure the length and mass of each cylinder (make sure you know which is which).
+	Record your measurements in the table.  Then calculate the changes in length and mass of each potato cylinder.
+12.	Plot a graph with:
+  •	‘Change in mass in g’ on the y-axis
+  •	‘Concentration of sugar solution’ on the x-axis
+13.	Plot another graph with:
+  •	‘Change in length in mm’ on the y-axis
+  •	‘Concentration of sugar solution’ on the x-axis.

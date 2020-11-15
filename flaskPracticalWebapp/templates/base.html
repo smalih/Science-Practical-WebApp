@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+
+
+  <!-- Bootstrap core CSS -->
+  <link href="{{ url_for('static', filename='css/bootstrap.min.css')}}" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+
+
+  {% if title %}
+  	<title>{{ title }} - Super Practicals</title>
+  {% else %}
+  	<title>Super Practicals</title>
+  {% endif %}
+
+</head>
+
+<body>
+
+  <div class="d-flex" id="wrapper">
+
+    <!-- Sidebar -->
+    <div class="bg-light border-right" id="sidebar-wrapper">
+      <div class="sidebar-heading">Super Practicals</div>
+      <div class="list-group list-group-flush">
+        <a href=" {{ url_for('home') }}" class="btn btn-primary list-group-item list-group-item-action bg-light">Dashboard</a>
+
+        <a href="#biooptions" class="list-group-item list-group-item-action bg-light" data-toggle="collapse" data-target="#biooptions">Biology</a>
+        <div id="biooptions" class="bg-white py-2 collapse-inner rounded">
+          <h6 class="collapse-header">Degree of Study</h6>
+          <a class="collapse-item" href="{{ url_for('gcse_biology') }}">GCSE</a>
+          <a class="collapse-item" href="{{ url_for('alevel_biology') }}">A Level</a>
+        </div>
+
+
+        <a href="#chemoptions" class="list-group-item list-group-item-action bg-light" data-toggle="collapse" data-target="#chemoptions">Chemistry</a>
+        <div id="chemoptions" class="bg-white py-2 collapse-inner rounded">
+          <h6 class="collapse-header">Degree of Study</h6>
+          <a class="collapse-item" href="{{ url_for('gcse_chemistry') }}">GCSE</a>
+          <a class="collapse-item" href="{{ url_for('alevel_chemistry') }}">A Level</a>
+        </div>
+
+        </div>
+
+  		<a href="#physoptions" class="list-group-item list-group-item-action bg-light" data-toggle="collapse" data-target="#physoptions">Physics</a>
+  		<div id="physoptions" class="bg-white py-2 collapse-inner rounded">
+  		  <h6 class="collapse-header">Degree of Study</h6>
+        <a class="collapse-item" href="{{ url_for('gcse_physics') }}">GCSE</a>
+        <a class="collapse-item" href="{{ url_for('alevel_physics') }}">A Level</a>
+      </div>
+		</div>
+
+
+
+
+    <!-- /#sidebar-wrapper -->
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+
+      <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+        <button class="btn btn-primary" id="menu-toggle">Toggle Menu</button>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+            <li class="nav-item active">
+              <a class="nav-link" href="{{ url_for('home') }}">Dashboard <span class="sr-only">(current)</span></a>
+            </li>
+              {% if current_user.is_authenticated %}
+              <li class="nav-item">
+                <a class="nav-link" href="#">Favourites</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  {% if current_user.fname and current_user.surname %}
+                    {{ current_user.fname }} {{ current_user.surname }}
+                  {% else %}
+                    PROFILE PIC
+                  {% endif %}
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="{{ url_for('profile') }}">Account</a>
+                  <a class="dropdown-item" href="{{ url_for('settings') }}">Settings</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="{{ url_for('logout') }}">Logout</a>
+                </div>
+              </li>
+            {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('register') }}">Register</a>
+            </li>
+
+            {% endif %}
+          </ul>
+        </div>
+      </nav>
+      <div class="container-fluid">
+        {% with messages = get_flashed_messages(with_categories=True) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="alert alert-{{ category }} mt-2">
+                {{ message }}
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+        <h2 class="mt-4">{{ title }}</h2>
+
+        {% block content %}
+        {% endblock content %}
+      </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+
+  </div>
+  <!-- Bootstrap core JavaScript -->
+  <script src="{{ url_for('static', filename='jquery/jquery.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+
+  <!-- Menu Toggle Script -->
+  <script>
+    $("#menu-toggle").click(function(e) {
+      e.preventDefault();
+      $("#wrapper").toggleClass("toggled");
+    });
+  </script>
+</body>
+
+</html>
