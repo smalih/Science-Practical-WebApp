@@ -19,6 +19,7 @@ Add all practical data to database. Needs to be processed into columns of the fo
   <li>Equipment</li>
   <li>Method</li>
   <li>Results Table</li>
+  <li>Graph (default=line graph)</li>
   <li>Hazards</li>
   <li>Additional Notes</li>
 </ul>
@@ -33,4 +34,10 @@ This will require lots of manual work and man-hours. Will consist of:
 
 Note: One thing that needs to be considered is how the practical data will be 'translated' to the client-side. What needs to be achieved is that users that are not logged in (or have not changed any practical data) will be displayed default practical data. If they are logged in, they will first have the additional option of customising the practical data. This customisation then needs to be saved and override default data for that specific user.
 
+Considering data visualisation, it should be considered that some practical data is better displayed as a bar or pie chart rather than line graph, depending on the practical. In addition, some data may require more than one type of data visualisation to be displayed at once.
+
+### Data Visualisation
+Data needs to be displayed within the webpage. Default dispay of data should be appropriate graph with labeled axes and corresponding results table
+
 ## Feature Releases
+
