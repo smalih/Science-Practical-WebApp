@@ -2,8 +2,8 @@
 
 ## Contents
 
-### [Base Features](#base-features)
-### [Feature Releases](#feature-releases)
+[Base Features](#base-features)
+[Feature Releases](#feature-releases)
 
 
 ## Base Features
