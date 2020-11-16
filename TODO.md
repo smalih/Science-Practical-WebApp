@@ -2,7 +2,7 @@
 
 ## Contents
 
-[Base Features](#base-features)
+[Base Features](#base-features)<br>
 [Feature Releases](#feature-releases)
 
 
