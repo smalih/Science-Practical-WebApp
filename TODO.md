@@ -2,8 +2,8 @@
 
 ## Contents
 
-<ul><li></li></ul>[Base Features](#base-features)
-<ul><li></li></ul>[Feature Releases](#feature-releases)
+### [Base Features](#base-features)
+### [Feature Releases](#feature-releases)
 
 
 ## Base Features
@@ -33,4 +33,4 @@ This will require lots of manual work and man-hours. Will consist of:
 
 Note: One thing that needs to be considered is how the practical data will be 'translated' to the client-side. What needs to be achieved is that users that are not logged in (or have not changed any practical data) will be displayed default practical data. If they are logged in, they will first have the additional option of customising the practical data. This customisation then needs to be saved and override default data for that specific user.
 
-# Feature Releases
+## Feature Releases
