@@ -1,5 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField
+from flask_login import current_user
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, DateField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from flaskPracticalWebapp.models import User
 
@@ -33,6 +34,8 @@ class RegistrationForm(FlaskForm):
             raise ValidationError("An account with that email already exists.")
 
 
+
+
 class LoginForm(FlaskForm):
 
     email = StringField(label='Email',validators=[DataRequired(), Email()],
@@ -45,3 +48,21 @@ class LoginForm(FlaskForm):
     remember_me = BooleanField('Remember Me')
 
     submit = SubmitField('Login')
+
+
+class UpdateAccountForm(FlaskForm):
+    fname = StringField(label="Forename",
+                        validators=[DataRequired(), Length(min=3, max=30)])
+    surname = StringField(label="Surname",
+                        validators=[DataRequired(), Length(min=3, max=30)])
+    email = StringField(label='Email',validators=[DataRequired(), Email()])
+
+    dob = DateField(label="Date of Birth", format="%d/%m/%Y")
+
+    submit = SubmitField('Save')
+
+    def validate_email(self, email):
+        if email.data != current_user.email:
+            user = User.query.filter_by(email=email.data).first()
+            if user:
+                raise ValidationError("An account with that email already exists.")

@@ -1,5 +1,5 @@
 from flask import render_template, url_for, flash, redirect, request
-from flaskPracticalWebapp.forms import RegistrationForm, LoginForm
+from flaskPracticalWebapp.forms import RegistrationForm, LoginForm, UpdateAccountForm
 from flaskPracticalWebapp.models import User, Practical
 from flaskPracticalWebapp import app, db, bcrypt
 from flask_login import login_user, current_user, logout_user, login_required
@@ -49,15 +49,28 @@ def logout():
     logout_user()
     return redirect(url_for("login"))
 
-@app.route('/profile')
+@app.route('/profile', methods=['GET', 'POST'])
 @login_required
 def profile():
-    if current_user.fname and current_user.fname:
-        title = f"{current_user.fname} {current_user.surname}"
-    else:
-        title = "User Profile"
+    form = UpdateAccountForm()
+
+    if form.validate_on_submit():
+
+        current_user.fname = form.fname.data
+        current_user.surname = form.surname.data
+        current_user.dob = form.dob.data
+        db.session.commit()
+        flash("Your changes have been saved!", "success")
+        return redirect(url_for("profile"))
+    elif request.method == "GET":
+        form.fname.data = current_user.fname
+        form.surname.data = current_user.surname
+        form.email.data = current_user.email
+    title = f"{current_user.fname} {current_user.surname}"
+    if not(title):
+        title=f"User Profile"
     profile_pic = url_for('static', filename=f"profile_pics/{current_user.profile_pic}")
-    return render_template("profile.html", title=title, profile_pic=profile_pic)
+    return render_template("profile.html", title=title, form=form, profile_pic=profile_pic)
 
 @app.route('/settings')
 @login_required

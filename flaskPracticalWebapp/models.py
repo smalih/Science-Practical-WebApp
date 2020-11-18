@@ -12,6 +12,7 @@ class User(db.Model, UserMixin):
     surname = db.Column(db.String(30), default="")
     email = db.Column(db.String(120), unique=True, nullable=False)
     # Default user profile picture
+    dob = db.Column(db.String(10), default="DD/MM/YYYY")
     profile_pic = db.Column(db.String(20), nullable=False, default="default.png")
     # Passwords will be hashed to a 60-character string
     password = db.Column(db.String(60), nullable=False)
