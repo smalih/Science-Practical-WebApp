@@ -56,7 +56,8 @@ def profile():
         title = f"{current_user.fname} {current_user.surname}"
     else:
         title = "User Profile"
-    return render_template("profile.html", title=title)
+    profile_pic = url_for('static', filename=f"profile_pics/{current_user.profile_pic}")
+    return render_template("profile.html", title=title, profile_pic=profile_pic)
 
 @app.route('/settings')
 @login_required

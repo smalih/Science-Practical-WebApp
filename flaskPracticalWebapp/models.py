@@ -12,13 +12,13 @@ class User(db.Model, UserMixin):
     surname = db.Column(db.String(30), default="")
     email = db.Column(db.String(120), unique=True, nullable=False)
     # Default user profile picture
-    image_file = db.Column(db.String(20), nullable=False, default="default.jpg")
+    profile_pic = db.Column(db.String(20), nullable=False, default="default.png")
     # Passwords will be hashed to a 60-character string
     password = db.Column(db.String(60), nullable=False)
     practicals = db.relationship("Practical", backref="author", lazy=True)
 
     def __repr__(self):
-        return f"User({self.email}', '{self.image_file}')"
+        return f"User({self.email}', '{self.profile_pic}')"
 
 class Practical(db.Model):
     id = db.Column(db.Integer, primary_key=True)

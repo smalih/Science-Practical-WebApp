@@ -1,29 +1,37 @@
 {% extends "base.html" %}
 {% block content %}
-<form class="form-signin" method="POST" action="">
+  <div class="content-section">
+    <div class="media">
+      <img class="rounded-circle account-img" src="{{ profile_pic }}">
+      <div class="media-body">
+        <h2 class="account-heading">{{ title }}</h2>
+        <p class="text-secondary">{{ current_user.email }}</p>
+      </div>
+    </div>
+    <form class="form-signin" method="POST" action="">
 
-  <div class="form-label-group">
-    <input type="text" class="form-control form-control-user" placeholder="Forename">
-  </div>
+      <div class="form-label-group">
+        <input type="text" class="form-control form-control-user" placeholder="Forename">
+      </div>
 
-  <div class="form-label-group">
-    <input type="text" class="form-control form-control-user" placeholder="Surname">
-  </div>
+      <div class="form-label-group">
+        <input type="text" class="form-control form-control-user" placeholder="Surname">
+      </div>
 
-  <div class="form-label-group">
-    <input type="date" class="form-control form-control-user" value="Forename">
-  </div>
+      <div class="form-label-group">
+        <input type="date" class="form-control form-control-user" value="Forename">
+      </div>
 
-  <div class="form-label-group">
-    <input type="email" class="form-control form-control-user" value="{{ current_user.email }}" disabled>
-  </div>
+      <div class="form-label-group">
+        <input type="email" class="form-control form-control-user" value="{{ current_user.email }}" disabled>
+      </div>
 
-  <div class="form-label-group">
-    <input type="password" class="form-control form-control-user" value="XXXXXXXXXXXXXXXX">
-  </div>
+      <div class="form-label-group">
+        <input type="password" class="form-control form-control-user" value="XXXXXXXXXXXXXXXX">
+      </div>
 
-  <div class="form-label-group">
-    <input type="password" class="form-control form-control-user" placeholder="Confirm New Password" disabled>
-  </div>
-
+      <div class="form-label-group">
+        <input type="password" class="form-control form-control-user" placeholder="Confirm New Password" disabled>
+      </div>
+    </div>
 {% endblock %}
