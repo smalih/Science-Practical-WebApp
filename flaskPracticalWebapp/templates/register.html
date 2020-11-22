@@ -19,6 +19,23 @@
 
     </div>
 
+
+    <div class="form-label-group">
+
+      {% if form.dob.errors %}
+        {{ form.dob(class="form-control is-invalid") }}
+        <div class="invalid-feedback">
+          {% for error in form.dob.errors %}
+            <span>{{ error }}</span>
+          {% endfor %}
+        </div>
+      {% else %}
+        {{ form.dob(class="form-control") }}
+      {% endif %}
+      {{ form.dob.label }}
+    </div>
+
+
     <div class="form-label-group">
 
       {% if form.password.errors %}

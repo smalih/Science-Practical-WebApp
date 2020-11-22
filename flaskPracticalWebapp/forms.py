@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
+from flask_wtf.file import FileField, FileAllowed
 from flask_login import current_user
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, DateField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, DateField, TextAreaField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from flaskPracticalWebapp.models import User
 
@@ -14,6 +15,8 @@ class RegistrationForm(FlaskForm):
                          "id": "email",
                          "type": "email",
                          "placeholder": "Email"})
+
+    dob = DateField(label="Date of Birth", format="%Y-%m-%d")
     password = PasswordField(label='Password', validators=[DataRequired(), Length(min=6, max=20)],
                                 render_kw={
                                  "id": "password",
@@ -57,7 +60,10 @@ class UpdateAccountForm(FlaskForm):
                         validators=[DataRequired(), Length(min=3, max=30)])
     email = StringField(label='Email',validators=[DataRequired(), Email()])
 
-    dob = DateField(label="Date of Birth", format="%d/%m/%Y")
+    dob = DateField(label="Date of Birth", format="%Y-%m-%d", render_kw={"disabled": True})
+    picture = FileField("Update Profile Picture", validators=[FileAllowed(["jpg", "png"])])
+
+
 
     submit = SubmitField('Save')
 
@@ -66,3 +72,8 @@ class UpdateAccountForm(FlaskForm):
             user = User.query.filter_by(email=email.data).first()
             if user:
                 raise ValidationError("An account with that email already exists.")
+
+class PracticalForm(FlaskForm):
+    title = StringField("Practical Title", validators=[DataRequired()])
+    content = TextAreaField("Content", validators=[DataRequired()])
+    submit = SubmitField("Update")

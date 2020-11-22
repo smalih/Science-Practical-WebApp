@@ -1,5 +1,7 @@
+import secrets, os
+from PIL import Image
 from flask import render_template, url_for, flash, redirect, request
-from flaskPracticalWebapp.forms import RegistrationForm, LoginForm, UpdateAccountForm
+from flaskPracticalWebapp.forms import RegistrationForm, LoginForm, UpdateAccountForm, PracticalForm
 from flaskPracticalWebapp.models import User, Practical
 from flaskPracticalWebapp import app, db, bcrypt
 from flask_login import login_user, current_user, logout_user, login_required
@@ -17,7 +19,7 @@ def register():
     form = RegistrationForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode("utf-8")
-        user = User(email=form.email.data, password=hashed_password)
+        user = User(email=form.email.data, password=hashed_password, dob=form.dob.data)
         db.session.add(user)
         db.session.commit()
         flash("Your account has been successfully created! Please login.", "success")
@@ -49,19 +51,40 @@ def logout():
     logout_user()
     return redirect(url_for("login"))
 
+
+def save_profile_pic(form_picture):
+    random_hex = secrets.token_hex(8)
+    _, file_ext = os.path.splitext(form_picture.filename)
+    picture_filename = random_hex + file_ext
+    picture_path = os.path.join(app.root_path, "static/profile_pics", picture_filename)
+    output_size = (125, 125)
+    resized_pic = Image.open(form_picture)
+    resized_pic.thumbnail(output_size)
+    resized_pic.save(picture_path)
+
+    return picture_filename
+
+
+
 @app.route('/profile', methods=['GET', 'POST'])
 @login_required
 def profile():
     form = UpdateAccountForm()
+    update = False
 
     if form.validate_on_submit():
-
-        current_user.fname = form.fname.data
-        current_user.surname = form.surname.data
-        current_user.dob = form.dob.data
-        db.session.commit()
-        flash("Your changes have been saved!", "success")
-        return redirect(url_for("profile"))
+        if form.picture.data:
+            picture_file = save_profile_pic(form.picture.data)
+            current_user.profile_pic = picture_file
+            update = True
+        if current_user.fname != form.fname.data or current_user.surname != form.surname.data:
+            current_user.fname = form.fname.data
+            current_user.surname = form.surname.data
+            update = True
+        if update:
+            db.session.commit()
+            flash("Your changes have been saved!", "success")
+            return redirect(url_for("profile"))
     elif request.method == "GET":
         form.fname.data = current_user.fname
         form.surname.data = current_user.surname
@@ -113,3 +136,12 @@ def gcse_physics():
 def alevel_physics():
     title = "A Level Physics"
     return render_template("/physics/physics-alevel.html", title=title)
+
+@app.route('/post/new', methods=["GET", "POST"])
+@login_required
+def new_post():
+    form = PracticalForm()
+    if form.validate_on_submit():
+        flash("Your practical has been edited!", "success")
+        return redirect(url_for("home"))
+    return render_template("create_post.html", title="New Post", form=form)
