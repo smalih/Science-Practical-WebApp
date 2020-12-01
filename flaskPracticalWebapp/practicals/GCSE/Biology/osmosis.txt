@@ -20,12 +20,12 @@ Method:
 1.	Use a cork borer to cut three potato cylinders of the same diameter.
 2.	Trim the cylinders so that they are all the same length (about 3 cm).
 3.	Accurately measure and record the length and mass of each potato cylinder.
-4. Label first, second and third boiling tubes '0.5 M', '0.25 M' and 'Water' respectively.
-4.	Measure 10 cm3 of the 0.5 M sugar solution and put into the first boiling tube.
-5.	Measure 10 cm3 of 0.25 M sugar solution and put into the second boiling tube.
-6.	Measure 10 cm3 of the distilled water and put into the third boiling tube - This is the CONTROL.
-7.	Add one potato cylinder to each boiling tube (make sure you know the length and mass of each potato cylinder in each boiling tube).
-8.	Record the lengths and masses of each potato cylinder in a table such as the one below.
+4.	Label first, second and third boiling tubes '0.5 M', '0.25 M' and 'Water' respectively.
+5.	Measure 10 cm3 of the 0.5 M sugar solution and put into the first boiling tube.
+6.	Measure 10 cm3 of 0.25 M sugar solution and put into the second boiling tube.
+7.	Measure 10 cm3 of the distilled water and put into the third boiling tube - This is the CONTROL.
+8.	Add one potato cylinder to each boiling tube (make sure you know the length and mass of each potato cylinder in each boiling tube).
+9.	Record the lengths and masses of each potato cylinder in a table such as the one below.
 
 	0.5 M sugar solution	0.25 M sugar solution	Distilled water
 Initial length (mm)

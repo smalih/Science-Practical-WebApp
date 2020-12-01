@@ -9,8 +9,8 @@ from flask_login import login_user, current_user, logout_user, login_required
 @app.route('/')
 def home():
     title = "Dashboard"
-
-    return render_template("index.html", title=title)
+    temp = Practical
+    return render_template("index.html", title=title, temp=temp)
 
 
 @app.route('/register', methods=["GET", "POST"])
