@@ -1,6 +1,6 @@
 import secrets, os
 from PIL import Image
-from flask import render_template, url_for, flash, redirect, request
+from flask import render_template, url_for, flash, redirect, request, abort
 from flaskPracticalWebapp.forms import RegistrationForm, LoginForm, UpdateAccountForm, PracticalForm
 from flaskPracticalWebapp.models import User, Practical
 from flaskPracticalWebapp import app, db, bcrypt
@@ -9,8 +9,8 @@ from flask_login import login_user, current_user, logout_user, login_required
 @app.route('/')
 def home():
     title = "Dashboard"
-    temp = Practical
-    return render_template("index.html", title=title, temp=temp)
+    practicals = Practical.query.all()
+    return render_template("index.html", title=title, practicals=practicals)
 
 
 @app.route('/register', methods=["GET", "POST"])
@@ -137,11 +137,50 @@ def alevel_physics():
     title = "A Level Physics"
     return render_template("/physics/physics-alevel.html", title=title)
 
-@app.route('/post/new', methods=["GET", "POST"])
+@app.route('/practical/new', methods=["GET", "POST"])
 @login_required
-def new_post():
+def new_practical():
     form = PracticalForm()
     if form.validate_on_submit():
-        flash("Your practical has been edited!", "success")
+        practical = Practical(title=form.title.data,
+                              degStudy=form.degStudy.data,
+                              equipment=form.equipment.data,
+                              method=form.method.data)
+        db.session.add(practical)
+        db.session.commit()
+        flash("Your new practical has been saved!", "success")
         return redirect(url_for("home"))
-    return render_template("create_post.html", title="New Post", form=form)
+    return render_template("create_practical.html", title="New Practical", form=form)
+
+
+@app.route('/practical/<practical_title>')
+def practical(practical_title):
+
+    practical = Practical.query.filter_by(title=practical_title).first()
+    return render_template("practical.html", title=practical.title, practical=practical)
+
+@app.route('/practical/<practical_title>/update', methods=["GET", "POST"])
+@login_required
+def update_practical(practical_title):
+    # Should be using get_or_404 or first_or_404 function
+    practical = Practical.query.filter_by(title=practical_title).first()
+    title = practical.title
+
+    form = PracticalForm()
+    if form.validate_on_submit():
+        practical.title = form.title.data
+        practical.degStudy = form.degStudy.data
+        practical.subject = form.subject.data
+        practical.equipment = form.equipment.data
+        practical.method = form.method.data
+        db.session.commit()
+        flash("Your practical has been updated!", "success")
+        return redirect(url_for("practical", practical_title=practical.title))
+    elif request.method == "GET":
+        form.title.data = practical.title
+        form.degStudy.data = practical.degStudy
+        form.subject.data = practical.subject
+        form.equipment.data = practical.equipment
+        form.method.data = practical.method
+
+    return render_template("create_practical.html", title="Update Practical", form=form)

@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block content %}
+<form class="form-signin" method="POST" action="">
+  {{ form.hidden_tag () }}
+  <div class="form-label-group">
+    {{ form.title.label }}
+    {% if form.title.errors %}
+      {{ form.title(class="form-control is-invalid") }}
+      <div class="invalid-feedback">
+        {% for error in form.title.errors %}
+          <span>{{ error }}</span>
+        {% endfor %}
+      </div>
+    {% else %}
+      {{ form.title(class="form-control") }}
+    {% endif %}
+
+
+  </div>
+
+  <div class="form-label-group">
+
+    {{ form.degStudy.label }}
+    {% if form.degStudy.errors %}
+      {{ form.degStudy(class="form-control is-invalid") }}
+      <div class="invalid-feedback">
+        {% for error in form.degStudy.errors %}
+          <span>{{ error }}</span>
+        {% endfor %}
+      </div>
+    {% else %}
+      {{ form.degStudy(class="form-control") }}
+    {% endif %}
+
+
+  </div>
+
+  <div class="form-label-group">
+
+    {{ form.subject.label }}
+    {% if form.subject.errors %}
+      {{ form.subject(class="form-control is-invalid") }}
+      <div class="invalid-feedback">
+        {% for error in form.subject.errors %}
+          <span>{{ error }}</span>
+        {% endfor %}
+      </div>
+    {% else %}
+      {{ form.subject(class="form-control") }}
+    {% endif %}
+
+
+  </div>
+
+  <div class="form-label-group">
+
+    {{ form.equipment.label }}
+    {% if form.equipment.errors %}
+      {{ form.equipment(class="form-control is-invalid") }}
+      <div class="invalid-feedback">
+        {% for error in form.equipment.errors %}
+          <span>{{ error }}</span>
+        {% endfor %}
+      </div>
+    {% else %}
+      {{ form.equipment(class="form-control") }}
+    {% endif %}
+
+  </div>
+
+  <div class="form-label-group">
+    {{ form.method.label }}
+    {% if form.method.errors %}
+      {{ form.method(class="form-control is-invalid") }}
+      <div class="invalid-feedback">
+        {% for error in form.method.errors %}
+          <span>{{ error }}</span>
+        {% endfor %}
+      </div>
+    {% else %}
+      {{ form.method(class="form-control") }}
+    {% endif %}
+
+  </div>
+  {{ form.submit(class="btn btn-lg btn-primary btn-block text-uppercase") }}
+</form>
+{% endblock content %}
