@@ -1,4 +1,5 @@
 # TODO
+[Note: This is more of a document designed to give the reader an idea of where the project is headed. For a more in-depth, bulleted, detailed todo list, watch this repository.]
 
 ## Contents
 
