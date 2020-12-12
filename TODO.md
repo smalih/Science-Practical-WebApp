@@ -28,7 +28,6 @@ This will require lots of manual work and man-hours. Will consist of:
 <ol>
   <li>Manually copying various practical information into a text-file with a consistent format</li>
     --> Formatting and tidying up data for each practical
-  <li>Reading in text-files and processing them as Database Models</li>
   <li>Having default values for each field for each practical</li>
 </ol>
 
