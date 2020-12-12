@@ -1,3 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
+  {% for practical in practicals%}
+  <h2>{{ practical.title }}</h2>
+  <p>{{ practical.user_id }}
+  {% endfor %}
+  <p>{{ current_user.practicals }}</p>
 {% endblock %}

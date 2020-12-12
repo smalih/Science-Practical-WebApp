@@ -10,6 +10,8 @@ from flask_login import login_user, current_user, logout_user, login_required
 def home():
     title = "Dashboard"
     practicals = Practical.query.all()
+
+
     return render_template("index.html", title=title, practicals=practicals)
 
 
@@ -20,8 +22,14 @@ def register():
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode("utf-8")
         user = User(email=form.email.data, password=hashed_password, dob=form.dob.data)
+
         db.session.add(user)
         db.session.commit()
+        practicals = Practical.query.all()
+        x = 10
+        for practical in practicals:
+            practical.user_id = 1
+            x+=1
         flash("Your account has been successfully created! Please login.", "success")
         return redirect(url_for('login'))
     return render_template("register.html", title=title, form=form)
@@ -145,7 +153,8 @@ def new_practical():
         practical = Practical(title=form.title.data,
                               degStudy=form.degStudy.data,
                               equipment=form.equipment.data,
-                              method=form.method.data)
+                              method=form.method.data,
+                              user_id = current_user.id)
         db.session.add(practical)
         db.session.commit()
         flash("Your new practical has been saved!", "success")
@@ -163,16 +172,31 @@ def practical(practical_title):
 @login_required
 def update_practical(practical_title):
     # Should be using get_or_404 or first_or_404 function
-    practical = Practical.query.filter_by(title=practical_title).first()
+    # If there already exists a practical written by the user trying to acess it, tha prcatical will be returned.
+    if Practical.query.filter_by(title=practical_title, user_id=current_user.id).first():
+        practical = Practical.query.filter_by(title=practical_title, user_id=current_user.id).first()
+    else:
+        practical = Practical.query.filter_by(title=practical_title).first()
     title = practical.title
 
     form = PracticalForm()
     if form.validate_on_submit():
-        practical.title = form.title.data
-        practical.degStudy = form.degStudy.data
-        practical.subject = form.subject.data
-        practical.equipment = form.equipment.data
-        practical.method = form.method.data
+        # If a default practical is returned, an insatnce of that practical wwill be created spefific to the user trying to update the practical
+        if practical.default == True:
+            practical = Practical(title=form.title.data,
+                                  degStudy=form.degStudy.data,
+                                  equipment=form.equipment.data,
+                                  method=form.method.data,
+                                  default=False,
+                                  user_id=current_user.id)
+            db.session.add(practical)
+        else:
+            practical.title = form.title.data
+            practical.degStudy = form.degStudy.data
+            practical.subject = form.subject.data
+            practical.equipment = form.equipment.data
+            practical.method = form.method.data
+            practical.default = False
         db.session.commit()
         flash("Your practical has been updated!", "success")
         return redirect(url_for("practical", practical_title=practical.title))
@@ -184,3 +208,20 @@ def update_practical(practical_title):
         form.method.data = practical.method
 
     return render_template("create_practical.html", title="Update Practical", form=form)
+
+@app.route('/practical/<practical_title>/delete', methods=["POST"])
+@login_required
+def delete_practical(practical_title):
+    # Should be using get_or_404 or first_or_404 function
+    if Practical.query.filter_by(title=practical_title, user_id=current_user.id).first():
+        practical = Practical.query.filter_by(title=practical_title, user_id=current_user.id).first()
+        message = "Your practical has been deleted!"
+        category = "success"
+        db.session.delete(practical)
+        db.session.commit()
+    else:
+        message = "You are not the author of this practical."
+        category = "danger"
+
+    flash(message, category)
+    return redirect(url_for("home"))

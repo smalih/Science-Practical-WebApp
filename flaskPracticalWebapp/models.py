@@ -23,13 +23,14 @@ class User(db.Model, UserMixin):
 
 class Practical(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(100), nullable=False)
+    title = db.Column(db.String(100), default="", nullable=False)
     degStudy = db.Column(db.String(10), default="GCSE")
     subject = db.Column(db.String(10), default="Biology")
     equipment = db.Column(db.Text, default="Temp Equipment")
     method = db.Column(db.Text, default="Temp Method")
     safety = db.Column(db.String, default="Wear safety goggles")
-    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=True)
+    default = db.Column(db.Boolean, default=True, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False, default=1)
 
     def __repr__(self):
         return f'''
