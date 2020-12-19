@@ -2,7 +2,6 @@
 {% block content %}
   {% for practical in practicals.items %}
     <article class="media content-section">
-      <img class="rounded-circle article-img" src="{{ url_for('static', filename='/profile_pic/default.png') }}">
       <div class="media-body">
         <div class="article-metadata">
           <a class="mr-2" href="#">{{ practical.author.firstname }} {{ practical.author.surname }}</a>
