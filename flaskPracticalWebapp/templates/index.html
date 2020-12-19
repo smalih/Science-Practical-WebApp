@@ -1,8 +1,31 @@
 {% extends 'base.html' %}
 {% block content %}
-  {% for practical in practicals%}
-  <h2>{{ practical.title }}</h2>
-  <p>{{ practical.user_id }}
+  {% for practical in practicals.items %}
+    <article class="media content-section">
+      <img class="rounded-circle article-img" src="{{ url_for('static', filename='/profile_pic/default.png') }}">
+      <div class="media-body">
+        <div class="article-metadata">
+          <a class="mr-2" href="#">{{ practical.author.firstname }} {{ practical.author.surname }}</a>
+        </div>
+
+      <h2><a class="article-title" href="{{ url_for('practical', practical_id=practical.id, practical_title=practical.title) }}">{{ practical.title}}</a></h2>
+      <p><small>Degree of Study: {{ practical.degStudy }}</small></p>
+      <p><small>Subject: {{ practical.subject }}</small></p>
+      <p classs="article-content">{{ practical.method }}</p>
+      </div>
+    </article>
+
+
   {% endfor %}
-  <p>{{ current_user.practicals }}</p>
+  {% for page_num in practicals.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+    {% if page_num %}
+      {% if practicals.page == page_num %}
+        <a class="btn btn-info mb-4" href="{{ url_for('home', page=page_num) }}">{{ page_num }}</a>
+      {% else %}
+        <a class="btn btn-outline-info mb-4" href="{{ url_for('home', page=page_num) }}">{{ page_num }}</a>
+      {% endif %}
+    {% else %}
+      ...
+    {% endif %}
+  {% endfor %}
 {% endblock %}

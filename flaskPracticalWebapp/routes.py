@@ -9,7 +9,12 @@ from flask_login import login_user, current_user, logout_user, login_required
 @app.route('/')
 def home():
     title = "Dashboard"
-    practicals = Practical.query.all()
+    page = request.args.get("page", 1, type=int)
+    if current_user.is_authenticated:
+        practicals = Practical.query.filter_by(user_id=current_user.id).paginate(page=page, per_page=5)
+    else:
+        practicals = Practical.query.filter_by(default=True).paginate(page=page, per_page=5)
+
 
 
     return render_template("index.html", title=title, practicals=practicals)
