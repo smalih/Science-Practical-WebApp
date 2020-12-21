@@ -80,3 +80,19 @@ class PracticalForm(FlaskForm):
     equipment = TextAreaField("Equipment", validators=[DataRequired()], render_kw={"placeholder": "• Microscope slide"})
     method = TextAreaField("Method", validators=[DataRequired()], render_kw={"placeholder": "1. Use tweezers to peel a single layer of onion skin"})
     submit = SubmitField("Save Practical")
+
+class RequestResetForm(FlaskForm):
+        email = StringField(label='Email',validators=[DataRequired(), Email()])
+        submit = SubmitField("Save Practical")
+
+        def validate_email(self, email):
+            user = User.query.filter_by(email=email.data).first()
+            if user is None:
+                raise ValidationError("No account with that email address exists. Would you like to create one?")
+
+class ResetPasswordForm(FlaskForm):
+    password = PasswordField(label='Password', validators=[DataRequired(), Length(min=6, max=20)]
+    confirm_password = PasswordField(label='Confirm Password',
+                                     validators=[DataRequired(), EqualTo('password')])
+
+    submit = SubmitField("Reset password")
