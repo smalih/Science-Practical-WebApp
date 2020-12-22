@@ -6,7 +6,7 @@ from flaskPracticalWebapp.forms import (RegistrationForm, LoginForm, UpdateAccou
 from flaskPracticalWebapp.models import User, Practical
 from flaskPracticalWebapp import app, db, bcrypt, mail
 from flask_login import login_user, current_user, logout_user, login_required
-from flask_mail import message
+from flask_mail import Message
 
 
 
@@ -252,8 +252,8 @@ def reset_request():
     if current_user.is_authenticated:
         return redirect(url_for("home"))
     title = "Forgot Password"
-    form = RequestResetForm
-    if from.validate_on_submit():
+    form = RequestResetForm()
+    if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         send_reset_email(user)
         flash("Please check your email for instructions on how to reset your password.", "info")

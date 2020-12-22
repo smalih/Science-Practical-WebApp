@@ -91,7 +91,7 @@ class RequestResetForm(FlaskForm):
                 raise ValidationError("No account with that email address exists. Would you like to create one?")
 
 class ResetPasswordForm(FlaskForm):
-    password = PasswordField(label='Password', validators=[DataRequired(), Length(min=6, max=20)]
+    password = PasswordField(label='Password', validators=[DataRequired(), Length(min=6, max=20)])
     confirm_password = PasswordField(label='Confirm Password',
                                      validators=[DataRequired(), EqualTo('password')])
 
