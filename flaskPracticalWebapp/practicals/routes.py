@@ -1,43 +1,35 @@
-from flask import Blueprint
-
-from flask import render_template, url_for, flash, redirect, request, abort
-from flaskPracticalWebapp.practicals.forms import PracticalForm
-from flaskPracticalWebapp.models import Practical
-from flaskPracticalWebapp import db
+from flask import Blueprint, render_template, url_for, flash, redirect, request, abort
 from flask_login import current_user, login_required
-
+from flaskPracticalWebapp import db
+from flaskPracticalWebapp.models import Practical
+from flaskPracticalWebapp.practicals.forms import PracticalForm
 
 practicals = Blueprint("practicals", __name__)
-
+# Need to determine the logic for routing the practicals
 @practicals.route('/gcse/biology')
 def gcse_biology():
     title = "GCSE Biology"
     return render_template("/biology/biology-gcse.html", title=title)
-
 
 @practicals.route('/alevel/biology')
 def alevel_biology():
     title = "A Level Biology"
     return render_template("/biology/biology-alevel.html", title=title)
 
-
 @practicals.route('/gcse/chemistry')
 def gcse_chemistry():
     title = "GCSE Chemistry"
     return render_template("/chemistry/chemistry-gcse.html", title=title)
-
 
 @practicals.route('/alevel/chemistry')
 def alevel_chemistry():
     title = "A Level Chemistry"
     return render_template("/chemistry/chemistry-alevel.html", title=title)
 
-
 @practicals.route('/gcse/physics')
 def gcse_physics():
     title = "GCSE Physics"
     return render_template("/physics/physics-gcse.html", title=title)
-
 
 @practicals.route('/alevel/physics')
 def alevel_physics():
@@ -60,10 +52,8 @@ def new_practical():
         return redirect(url_for("main.home"))
     return render_template("create_practical.html", title="New Practical", form=form)
 
-
 @practicals.route('/practical/<practical_title>')
 def practical(practical_title):
-
     practical = Practical.query.filter_by(title=practical_title).first()
     return render_template("practical.html", title=practical.title, practical=practical)
 
@@ -71,10 +61,10 @@ def practical(practical_title):
 @login_required
 def update_practical(practical_title):
     # Should be using get_or_404 or first_or_404 function
-    # If there already exists a practical written by the user trying to acess it, tha practical will be returned.
+    # If there already exists a practical written by the user trying to acess it, tha practical will be returned
     '''
     practical = Post.query.get_or_404(practical_title)
-    if practical.autor != current_user:
+    if practical.author != current_user:
         abort(403)
     '''
     if Practical.query.filter_by(title=practical_title, user_id=current_user.id).first():
@@ -82,10 +72,12 @@ def update_practical(practical_title):
     else:
         practical = Practical.query.filter_by(title=practical_title).first()
     title = practical.title
-
     form = PracticalForm()
+     # Need to find a better way of determining that changes were actually made unlike the logic used for the profile page
+     # Initial practical variable be called practical1, new practical called 'practical2'; if practical1 == practical2, flash 'no changes'
+     # The question is whether db objects/instances can be compared in this manner
     if form.validate_on_submit():
-        # If a default practical is returned, an insatnce of that practical wwill be created spefific to the user trying to update the practical
+        # If a default practical is returned, an instance of that practical will be created specific to the user trying to update the practical
         if practical.default == True:
             practical = Practical(title=form.title.data,
                                   degStudy=form.degStudy.data,
@@ -95,7 +87,7 @@ def update_practical(practical_title):
                                   user_id=current_user.id)
             db.session.add(practical)
         else:
-            practical.title = form.title.data
+            if practical.title = form.title.data
             practical.degStudy = form.degStudy.data
             practical.subject = form.subject.data
             practical.equipment = form.equipment.data
@@ -110,7 +102,6 @@ def update_practical(practical_title):
         form.subject.data = practical.subject
         form.equipment.data = practical.equipment
         form.method.data = practical.method
-
     return render_template("create_practical.html", title="Update Practical", form=form)
 
 @practicals.route('/practical/<practical_title>/delete', methods=["POST"])
@@ -126,6 +117,5 @@ def delete_practical(practical_title):
     else:
         message = "You are not the author of this practical."
         category = "danger"
-
     flash(message, category)
     return redirect(url_for("main.home"))

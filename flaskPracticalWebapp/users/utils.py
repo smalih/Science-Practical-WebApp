@@ -14,7 +14,6 @@ def save_profile_pic(form_picture):
     resized_pic = Image.open(form_picture)
     resized_pic.thumbnail(output_size)
     resized_pic.save(picture_path)
-
     return picture_filename
 
 # Function that sends a reset email
@@ -24,6 +23,6 @@ def send_reset_email(user):
     msg.body = f'''To reset your password, visit the following link:
 {url_for("users.reset_token", token=token, _external=True)}
 
-If you did not make this request, please ignore this email and no chnages will be made to your account
+If you did not make this request, please ignore this email and no changes will be made to your account.
 '''
     mail.send(msg)

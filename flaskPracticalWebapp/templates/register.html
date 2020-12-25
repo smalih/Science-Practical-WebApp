@@ -4,7 +4,6 @@
   <form class="form-signin" method="POST" action="">
     {{ form.hidden_tag () }}
     <div class="form-label-group">
-
       {% if form.email.errors %}
         {{ form.email(class="form-control is-invalid") }}
         <div class="invalid-feedback">
@@ -16,12 +15,8 @@
         {{ form.email(class="form-control") }}
       {% endif %}
       {{ form.email.label }}
-
     </div>
-
-
     <div class="form-label-group">
-
       {% if form.dob.errors %}
         {{ form.dob(class="form-control is-invalid") }}
         <div class="invalid-feedback">
@@ -34,10 +29,7 @@
       {% endif %}
       {{ form.dob.label }}
     </div>
-
-
     <div class="form-label-group">
-
       {% if form.password.errors %}
         {{ form.password(class="form-control is-invalid") }}
         <div class="invalid-feedback">
@@ -50,9 +42,7 @@
       {% endif %}
       {{ form.password.label }}
     </div>
-
     <div class="form-label-group">
-
       {% if form.confirm_password.errors %}
         {{ form.confirm_password(class="form-control is-invalid") }}
         <div class="invalid-feedback">
