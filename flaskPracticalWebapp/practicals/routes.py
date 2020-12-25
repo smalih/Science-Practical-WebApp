@@ -1,5 +1,12 @@
 from flask import Blueprint
 
+from flask import render_template, url_for, flash, redirect, request, abort
+from flaskPracticalWebapp.practicals.forms import PracticalForm
+from flaskPracticalWebapp.models import Practical
+from flaskPracticalWebapp import db
+from flask_login import current_user, login_required
+
+
 practicals = Blueprint("practicals", __name__)
 
 @practicals.route('/gcse/biology')
@@ -50,7 +57,7 @@ def new_practical():
         db.session.add(practical)
         db.session.commit()
         flash("Your new practical has been saved!", "success")
-        return redirect(url_for("home"))
+        return redirect(url_for("main.home"))
     return render_template("create_practical.html", title="New Practical", form=form)
 
 
@@ -96,7 +103,7 @@ def update_practical(practical_title):
             practical.default = False
         db.session.commit()
         flash("Your practical has been updated!", "success")
-        return redirect(url_for("practical", practical_title=practical.title))
+        return redirect(url_for("practicals.practical", practical_title=practical.title))
     elif request.method == "GET":
         form.title.data = practical.title
         form.degStudy.data = practical.degStudy
@@ -121,4 +128,4 @@ def delete_practical(practical_title):
         category = "danger"
 
     flash(message, category)
-    return redirect(url_for("home"))
+    return redirect(url_for("main.home"))

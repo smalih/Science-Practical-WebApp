@@ -7,7 +7,7 @@
           <a class="mr-2" href="#">{{ practical.author.firstname }} {{ practical.author.surname }}</a>
         </div>
 
-      <h2><a class="article-title" href="{{ url_for('practical', practical_id=practical.id, practical_title=practical.title) }}">{{ practical.title}}</a></h2>
+      <h2><a class="article-title" href="{{ url_for('practicals.practical', practical_id=practical.id, practical_title=practical.title) }}">{{ practical.title}}</a></h2>
       <p><small>Degree of Study: {{ practical.degStudy }}</small></p>
       <p><small>Subject: {{ practical.subject }}</small></p>
       <p classs="article-content">{{ practical.method }}</p>
@@ -19,9 +19,9 @@
   {% for page_num in practicals.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
     {% if page_num %}
       {% if practicals.page == page_num %}
-        <a class="btn btn-info mb-4" href="{{ url_for('home', page=page_num) }}">{{ page_num }}</a>
+        <a class="btn btn-info mb-4" href="{{ url_for('main.home', page=page_num) }}">{{ page_num }}</a>
       {% else %}
-        <a class="btn btn-outline-info mb-4" href="{{ url_for('home', page=page_num) }}">{{ page_num }}</a>
+        <a class="btn btn-outline-info mb-4" href="{{ url_for('main.home', page=page_num) }}">{{ page_num }}</a>
       {% endif %}
     {% else %}
       ...

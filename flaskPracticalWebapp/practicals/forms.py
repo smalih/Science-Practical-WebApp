@@ -1,10 +1,6 @@
 from flask_wtf import FlaskForm
-from flask_wtf.file import FileField, FileAllowed
-from flask_login import current_user
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, DateField, TextAreaField, SelectField
-from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
-from flaskPracticalWebapp.models import User
-# Above imports needed to be changed so that we are only dealing with appropriate ones
+from wtforms import StringField, SubmitField,TextAreaField, SelectField
+from wtforms.validators import DataRequired
 
 
 class PracticalForm(FlaskForm):

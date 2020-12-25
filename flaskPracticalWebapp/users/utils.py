@@ -1,3 +1,10 @@
+import os
+import secrets
+from PIL import Image
+from flask import url_for
+from flaskPracticalWebapp import app, mail
+from flask_mail import Message
+
 def save_profile_pic(form_picture):
     random_hex = secrets.token_hex(8)
     _, file_ext = os.path.splitext(form_picture.filename)
@@ -15,7 +22,7 @@ def send_reset_email(user):
     token = user.get_reset_token()
     msg = Message("Pasword Reset Request", sender="info@demo.com", recipients=[user.email])
     msg.body = f'''To reset your password, visit the following link:
-{url_for("reset_token", token=token, _external=True)}
+{url_for("users.reset_token", token=token, _external=True)}
 
 If you did not make this request, please ignore this email and no chnages will be made to your account
 '''

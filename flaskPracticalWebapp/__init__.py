@@ -1,30 +1,26 @@
-import os
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_mail import Mail
-
+from flaskPracticalWebapp.config import Config
 app = Flask(__name__)
-
-app.config['SECRET_KEY'] = "094e56539d5e62731afee606d25f539b"
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database/site.db'
-
+app.config.from_object(Config)
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
-login_manager.login_view = "login"
+login_manager.login_view = "users.login"
 login_manager.login_message_category = "info"
-app.config['MAIL_SERVER'] = 'smtp.googlemail.com'
-app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_PORT'] = 587
 
-# Need to figure out why env variables are not being recognisd by os module
 
-app.config["MAIL_USERNAME"] = os.environ.get("EMAIL_USER")
-app.config["MAIL_PASSWORD"] = os.environ.get("EMAIL_PASS")
 mail = Mail(app)
 
+from flaskPracticalWebapp.users.routes import users
+from flaskPracticalWebapp.practicals.routes import practicals
+from flaskPracticalWebapp.main.routes import main
 
-from flaskPracticalWebapp import routes
+
+app.register_blueprint(users)
+app.register_blueprint(practicals)
+app.register_blueprint(main)

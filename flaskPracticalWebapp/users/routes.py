@@ -1,5 +1,14 @@
 from flask import Blueprint
 
+from flask import render_template, url_for, flash, redirect, request
+from flaskPracticalWebapp.users.forms import (RegistrationForm, LoginForm, UpdateAccountForm,
+                                        RequestResetForm, ResetPasswordForm)
+from flaskPracticalWebapp.models import User
+from flaskPracticalWebapp import db, bcrypt
+from flask_login import login_user, current_user, logout_user, login_required
+from flaskPracticalWebapp.users.utils import save_profile_pic, send_reset_email
+
+
 users = Blueprint("users", __name__)
 
 
@@ -13,20 +22,16 @@ def register():
 
         db.session.add(user)
         db.session.commit()
-        practicals = Practical.query.all()
-        x = 10
-        for practical in practicals:
-            practical.user_id = 1
-            x+=1
+
         flash("Your account has been successfully created! Please login.", "success")
-        return redirect(url_for('login'))
+        return redirect(url_for("users.login"))
     return render_template("register.html", title=title, form=form)
 
 
 @users.route('/login', methods=["GET", "POST"])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for("home"))
+        return redirect(url_for("main.home"))
     title = "Login"
     form = LoginForm()
     if form.validate_on_submit():
@@ -35,7 +40,7 @@ def login():
             login_user(user, remember=form.remember_me.data)
             next_page = request.args.get("next")
             # [1:] in place as request.args.get returns url with \ included (eg "\profile" rather than just "profile"), url_for takes in name of function.
-            return redirect(url_for(next_page[1:])) if next_page else redirect(url_for("home"))
+            return redirect(url_for(next_page[1:])) if next_page else redirect(url_for("main.home"))
 
 
         else:
@@ -45,7 +50,7 @@ def login():
 @users.route('/logout')
 def logout():
     logout_user()
-    return redirect(url_for("login"))
+    return redirect(url_for("users.login"))
 
 
 
@@ -67,7 +72,7 @@ def profile():
         if update:
             db.session.commit()
             flash("Your changes have been saved!", "success")
-            return redirect(url_for("profile"))
+            return redirect(url_for("users.profile"))
     elif request.method == "GET":
         form.fname.data = current_user.fname
         form.surname.data = current_user.surname
@@ -91,27 +96,27 @@ def settings():
 @users.route('/reset_password', methods=["GET", "POST"])
 def reset_request():
     if current_user.is_authenticated:
-        return redirect(url_for("home"))
+        return redirect(url_for("main.home"))
     title = "Forgot Password"
     form = RequestResetForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         send_reset_email(user)
         flash("Please check your email for instructions on how to reset your password.", "info")
-        return redirect(url_for("login"))
+        return redirect(url_for("users.login"))
     return render_template("reset_request.html", title=title, form=form)
 
 
 @users.route("/reset_password/<token>", methods=["GET", "POST"])
 def reset_token(token):
     if current_user.is_authenticated:
-        return redirect(url_for("home"))
+        return redirect(url_for("main.home"))
 
 
     user = User.verify_reset_token(token)
     if user is None:
         flash("That is an invalid or expired token", "warning")
-        return redirect(url_for("reset_request"))
+        return redirect(url_for("users.reset_request"))
 
     title="Reset Password"
     form = ResetPasswordForm()
@@ -119,7 +124,8 @@ def reset_token(token):
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode("utf-8")
         user.password = hashed_password
         db.session.commit()
-        practicals = Practical.query.all()
+
+
         flash("Your password has been sucessfully updated! You are now able to login", "success")
-        return redirect(url_for('login'))
+        return redirect(url_for('users.login'))
     return render_template("reset_token.html", title=title, form=form)

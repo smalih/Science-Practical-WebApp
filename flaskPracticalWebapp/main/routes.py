@@ -1,5 +1,10 @@
 from flask import Blueprint
 
+from flask import render_template,  request
+from flaskPracticalWebapp.models import Practical
+from flask_login import current_user
+
+
 main = Blueprint("main", __name__)
 
 @main.route('/')
