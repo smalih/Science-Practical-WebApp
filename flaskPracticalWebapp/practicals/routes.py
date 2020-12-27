@@ -87,12 +87,12 @@ def update_practical(practical_title):
                                   user_id=current_user.id)
             db.session.add(practical)
         else:
-            if practical.title = form.title.data
-            practical.degStudy = form.degStudy.data
-            practical.subject = form.subject.data
-            practical.equipment = form.equipment.data
-            practical.method = form.method.data
-            practical.default = False
+            if practical.title == form.title.data:
+                practical.degStudy = form.degStudy.data
+                practical.subject = form.subject.data
+                practical.equipment = form.equipment.data
+                practical.method = form.method.data
+                practical.default = False
         db.session.commit()
         flash("Your practical has been updated!", "success")
         return redirect(url_for("practicals.practical", practical_title=practical.title))
