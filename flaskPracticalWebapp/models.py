@@ -3,22 +3,23 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from datetime import datetime
 from flask_login import UserMixin
 from flask import current_app
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
+    # username = db.Column(db.String(15, unique=True))
     fname = db.Column(db.String(30), default="")
     surname = db.Column(db.String(30), default="")
     email = db.Column(db.String(120), unique=True, nullable=False)
+    # Passwords will be hashed to a 60-character string
+    password = db.Column(db.String(60), nullable=False)
     # Default user profile picture
     dob = db.Column(db.String(10), nullable=False)
     profile_pic = db.Column(db.String(20), nullable=False, default="default.png")
-    # Passwords will be hashed to a 60-character string
-    password = db.Column(db.String(60), nullable=False)
     practicals = db.relationship("Practical", backref="author", lazy=True)
-
 
     def get_reset_token(self, expires_sec=1800):
         s = Serializer(current_app.config["SECRET_KEY"], expires_sec)
@@ -32,7 +33,6 @@ class User(db.Model, UserMixin):
             return None
         return User.query.get(user_id)
 
-
     def __repr__(self):
         return f"User({self.email}', '{self.profile_pic}')"
 
@@ -44,8 +44,19 @@ class Practical(db.Model):
     equipment = db.Column(db.Text, default="Temp Equipment")
     method = db.Column(db.Text, default="Temp Method")
     safety = db.Column(db.String, default="Wear safety goggles")
-    default = db.Column(db.Boolean, default=True, nullable=False)
+    # practical_data = db.relationship("Practical_Data", backref="practical", lazy=True)
+    # in_var = db.Column(db.String(100), default="", nullable=False)
+    # dep_var = db.Column(db.String(100), default="", nullable=False)
+    # con_var = db.Column(db.String(100), default="", nullable=False)
+    # default = db.Column(db.Boolean, default=True, nullable=False)
+    # date_created = db.Column(db.String(10), nullable=False)
+    # date_modified = db.Column(db.String(10), default="")
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False, default=1)
+
+    # def plot_practical(practical_data):
+    #     Fill in numpy, pandas and matplotlib logic to plot graph
+    #     Is it possinle to return a plot in a function?
+    #     Plotting logic can also be done at routes
 
     def __repr__(self):
         return f'''
@@ -54,3 +65,9 @@ class Practical(db.Model):
         {self.equipment}
 
         {self.method}'''
+
+# class Practical_Data(db.Model):
+#     title = db.Column(db.String(60), nullable="False")
+#     graphType = db.column(db.String(4), default="Line")
+#     # parent practical
+#     ppractical = db.column(db.Integer, db.ForeignKey("practical.id"), nullable=False, primary_key=True)
