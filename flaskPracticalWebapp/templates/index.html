@@ -7,7 +7,7 @@
           <a class="mr-2" href="#">{{ practical.author.firstname }} {{ practical.author.surname }}</a>
         </div>
 
-        <h2><a class="article-title" href="{{ url_for('practicals.practical', practical_id=practical.id, practical_title=practical.title) }}">{{ practical.title}}</a></h2>
+        <h2><a class="article-title" href="{{ url_for('practicals.practical', practical_id=practical.id, degStudy=practical.degStudy, subject=practical.subject) }}">{{ practical.title}}</a></h2>
         <p><small>Degree of Study: {{ practical.degStudy }}</small></p>
         <p><small>Subject: {{ practical.subject }}</small></p>
         <p classs="article-content">{{ practical.method }}</p>

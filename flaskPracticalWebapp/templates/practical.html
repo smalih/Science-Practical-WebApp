@@ -5,7 +5,7 @@
   <p>{{ practical.equipment}}</p>
   <p>{{ practical.method}}</p>
   <div>
-    <a class="btn btn-secondary btn-sm m-1" href="{{ url_for('practicals.update_practical', practical_title=practical.title) }}">Update</a>
+    <a class="btn btn-secondary btn-sm m-1" href="{{ url_for('practicals.update_practical', degStudy=practical.degStudy.lower(), subject=practical.subject.lower(),practical_id=practical.id) }}">Update</a>
     <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Delete</button>
     <!-- Modal -->
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
@@ -24,7 +24,7 @@
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
             <!-- Need to create delete_practical route -->
-            <form action="{{ url_for('practicals.delete_practical', practical_title=practical.title) }}" method="POST">
+            <form action="{{ url_for('practicals.delete_practical', degStudy=practical.degStudy, subject=practical.subject,practical_id=practical.id) }}" method="POST">
               <input class="btn btn-danger btn-primary" type="submit" value="Delete Practical">
             </form>
           </div>

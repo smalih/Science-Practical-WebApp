@@ -48,10 +48,20 @@ class Practical(db.Model):
     # in_var = db.Column(db.String(100), default="", nullable=False)
     # dep_var = db.Column(db.String(100), default="", nullable=False)
     # con_var = db.Column(db.String(100), default="", nullable=False)
-    # default = db.Column(db.Boolean, default=True, nullable=False)
+    default = db.Column(db.Boolean, default=True, nullable=False)
     # date_created = db.Column(db.String(10), nullable=False)
     # date_modified = db.Column(db.String(10), default="")
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False, default=1)
+
+    def getDegStudy(self):
+        if self.degStudy.lower() == "gcse":
+            return "gcse"
+        degStudyTitle = f"{self.degStudy[0]}{self.degStudy[2:]}"
+        return degStudyTitle.lower()
+
+    def getSubject(self):
+        return self.subject.lower()
+
 
     # def plot_practical(practical_data):
     #     Fill in numpy, pandas and matplotlib logic to plot graph

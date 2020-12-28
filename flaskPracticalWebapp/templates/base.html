@@ -26,22 +26,22 @@
         <a href="#biooptions" class="list-group-item list-group-item-action bg-light" data-toggle="collapse" data-target="#biooptions">Biology</a>
         <div id="biooptions" class="bg-white py-2 collapse-inner rounded">
           <h6 class="collapse-header">Degree of Study</h6>
-          <a class="collapse-item" href="{{ url_for('practicals.gcse_biology') }}">GCSE</a>
-          <a class="collapse-item" href="{{ url_for('practicals.alevel_biology') }}">A Level</a>
+          <a class="collapse-item" href="{{ url_for('practicals.degStudy_subject', degStudy='gcse', subject='biology') }}">GCSE</a>
+          <a class="collapse-item" href="{{ url_for('practicals.degStudy_subject', degStudy='alevel', subject='biology') }}">A Level</a>
         </div>
 
         <a href="#chemoptions" class="list-group-item list-group-item-action bg-light" data-toggle="collapse" data-target="#chemoptions">Chemistry</a>
         <div id="chemoptions" class="bg-white py-2 collapse-inner rounded">
           <h6 class="collapse-header">Degree of Study</h6>
-          <a class="collapse-item" href="{{ url_for('practicals.gcse_chemistry') }}">GCSE</a>
-          <a class="collapse-item" href="{{ url_for('practicals.alevel_chemistry') }}">A Level</a>
+          <a class="collapse-item" href="{{ url_for('practicals.degStudy_subject', degStudy='gcse', subject='chemistry') }}">GCSE</a>
+          <a class="collapse-item" href="{{ url_for('practicals.degStudy_subject', degStudy='alevel', subject='chemistry') }}">A Level</a>
         </div>
 
     		<a href="#physoptions" class="list-group-item list-group-item-action bg-light" data-toggle="collapse" data-target="#physoptions">Physics</a>
     		<div id="physoptions" class="bg-white py-2 collapse-inner rounded">
     		  <h6 class="collapse-header">Degree of Study</h6>
-          <a class="collapse-item" href="{{ url_for('practicals.gcse_physics') }}">GCSE</a>
-          <a class="collapse-item" href="{{ url_for('practicals.alevel_physics') }}">A Level</a>
+          <a class="collapse-item" href="{{ url_for('practicals.degStudy_subject', degStudy='gcse', subject='physics') }}">GCSE</a>
+          <a class="collapse-item" href="{{ url_for('practicals.degStudy_subject', degStudy='alevel', subject='physics') }}">A Level</a>
         </div>
       </div>
     </div>

@@ -6,75 +6,45 @@ from flaskPracticalWebapp.practicals.forms import PracticalForm
 
 practicals = Blueprint("practicals", __name__)
 # Need to determine the logic for routing the practicals
-@practicals.route('/gcse/biology')
-def gcse_biology():
-    title = "GCSE Biology"
-    return render_template("/biology/biology-gcse.html", title=title)
 
-@practicals.route('/alevel/biology')
-def alevel_biology():
-    title = "A Level Biology"
-    return render_template("/biology/biology-alevel.html", title=title)
+@practicals.route('/<degStudy>/<subject>')
+def degStudy_subject(degStudy, subject):
+    practicals = Practical.query.filter_by(degStudy=degStudy,subject=subject).filter(((Practical.user_id==current_user.id) | (Practical.default==True)) if current_user.is_authenticated else (Practical.default==True)).all()
 
-@practicals.route('/gcse/chemistry')
-def gcse_chemistry():
-    title = "GCSE Chemistry"
-    return render_template("/chemistry/chemistry-gcse.html", title=title)
 
-@practicals.route('/alevel/chemistry')
-def alevel_chemistry():
-    title = "A Level Chemistry"
-    return render_template("/chemistry/chemistry-alevel.html", title=title)
+    title= f"{degStudy} {subject}"
+    return render_template("degStudy_subject.html", title=title, practicals=practicals)
 
-@practicals.route('/gcse/physics')
-def gcse_physics():
-    title = "GCSE Physics"
-    return render_template("/physics/physics-gcse.html", title=title)
-
-@practicals.route('/alevel/physics')
-def alevel_physics():
-    title = "A Level Physics"
-    return render_template("/physics/physics-alevel.html", title=title)
-
-@practicals.route('/practical/new', methods=["GET", "POST"])
+@practicals.route('/<degStudy>/<subject>/new-practical', methods=["GET", "POST"])
 @login_required
-def new_practical():
+def new_practical(degStudy, subject):
     form = PracticalForm()
     if form.validate_on_submit():
         practical = Practical(title=form.title.data,
-                              degStudy=form.degStudy.data,
+                              degStudy=form.degStudy.data.lower(),
+                              subject=form.subject.data.lower(),
                               equipment=form.equipment.data,
                               method=form.method.data,
-                              user_id = current_user.id)
+                              user_id=current_user.id)
         db.session.add(practical)
         db.session.commit()
         flash("Your new practical has been saved!", "success")
         return redirect(url_for("main.home"))
     return render_template("create_practical.html", title="New Practical", form=form)
 
-# This works but I want pravticals to be accessed by their titles rather
-# than their ids as it less natural using numbers for practicals in the URLs
-@practicals.route('/practical/<practical_id>')
-def practical(practical_id):
+@practicals.route('/<degStudy>/<subject>/<practical_id>')
+def practical(degStudy, subject, practical_id):
     practical = Practical.query.get_or_404(practical_id)
-    if practical.author != current_user:
+    if practical.author != current_user and not(practical.default):
         abort(403)
     return render_template("practical.html", title=practical.title, practical=practical)
 
-@practicals.route('/practical/<practical_title>/update', methods=["GET", "POST"])
+@practicals.route('/<degStudy>/<subject>/<practical_id>/update', methods=["GET", "POST"])
 @login_required
-def update_practical(practical_title):
-    # Should be using get_or_404 or first_or_404 function
-    # If there already exists a practical written by the user trying to acess it, tha practical will be returned
-    '''
-    practical = Post.query.get_or_404(practical_title)
-    if practical.author != current_user:
+def update_practical(degStudy, subject, practical_id):
+    practical = Practical.query.get_or_404(practical_id)
+    if practical.author != current_user and not(practical.default):
         abort(403)
-    '''
-    if Practical.query.filter_by(title=practical_title, user_id=current_user.id).first():
-        practical = Practical.query.filter_by(title=practical_title, user_id=current_user.id).first()
-    else:
-        practical = Practical.query.filter_by(title=practical_title).first()
     title = practical.title
     form = PracticalForm()
      # Need to find a better way of determining that changes were actually made unlike the logic used for the profile page
@@ -85,21 +55,21 @@ def update_practical(practical_title):
         if practical.default == True:
             practical = Practical(title=form.title.data,
                                   degStudy=form.degStudy.data,
+                                  subject=form.subject.data,
                                   equipment=form.equipment.data,
                                   method=form.method.data,
                                   default=False,
                                   user_id=current_user.id)
             db.session.add(practical)
         else:
-            if practical.title == form.title.data:
-                practical.degStudy = form.degStudy.data
-                practical.subject = form.subject.data
-                practical.equipment = form.equipment.data
-                practical.method = form.method.data
-                practical.default = False
+            practical.title=form.title.data
+            practical.degStudy=form.degStudy.data
+            practical.subject=form.subject.data
+            practical.equipment=form.equipment.data
+            practical.method=form.method.data
         db.session.commit()
         flash("Your practical has been updated!", "success")
-        return redirect(url_for("practicals.practical", practical_title=practical.title))
+        return redirect(url_for("practicals.practical", degStudy=practical.degStudy, subject=practical.subject, practical_id=practical.id))
     elif request.method == "GET":
         form.title.data = practical.title
         form.degStudy.data = practical.degStudy
@@ -108,18 +78,13 @@ def update_practical(practical_title):
         form.method.data = practical.method
     return render_template("create_practical.html", title="Update Practical", form=form)
 
-@practicals.route('/practical/<practical_title>/delete', methods=["POST"])
+@practicals.route('/<degStudy>/<subject>/<practical_id>/delete', methods=["POST"])
 @login_required
-def delete_practical(practical_title):
-    # Should be using get_or_404 or first_or_404 function
-    if Practical.query.filter_by(title=practical_title, user_id=current_user.id).first():
-        practical = Practical.query.filter_by(title=practical_title, user_id=current_user.id).first()
-        message = "Your practical has been deleted!"
-        category = "success"
-        db.session.delete(practical)
-        db.session.commit()
-    else:
-        message = "You are not the author of this practical."
-        category = "danger"
+def delete_practical(degStudy, subject, practical_id):
+    practical = Practical.query.get_or_404(practical_id)
+    message = "Your practical has been deleted!"
+    category = "success"
+    db.session.delete(practical)
+    db.session.commit()
     flash(message, category)
     return redirect(url_for("main.home"))
