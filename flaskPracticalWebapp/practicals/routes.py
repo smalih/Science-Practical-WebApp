@@ -52,9 +52,13 @@ def new_practical():
         return redirect(url_for("main.home"))
     return render_template("create_practical.html", title="New Practical", form=form)
 
-@practicals.route('/practical/<practical_title>')
-def practical(practical_title):
-    practical = Practical.query.filter_by(title=practical_title).first()
+# This works but I want pravticals to be accessed by their titles rather
+# than their ids as it less natural using numbers for practicals in the URLs
+@practicals.route('/practical/<practical_id>')
+def practical(practical_id):
+    practical = Practical.query.get_or_404(practical_id)
+    if practical.author != current_user:
+        abort(403)
     return render_template("practical.html", title=practical.title, practical=practical)
 
 @practicals.route('/practical/<practical_title>/update', methods=["GET", "POST"])
