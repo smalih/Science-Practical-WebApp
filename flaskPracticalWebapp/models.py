@@ -53,16 +53,6 @@ class Practical(db.Model):
     # date_modified = db.Column(db.String(10), default="")
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False, default=1)
 
-    def getDegStudy(self):
-        if self.degStudy.lower() == "gcse":
-            return "gcse"
-        degStudyTitle = f"{self.degStudy[0]}{self.degStudy[2:]}"
-        return degStudyTitle.lower()
-
-    def getSubject(self):
-        return self.subject.lower()
-
-
     # def plot_practical(practical_data):
     #     Fill in numpy, pandas and matplotlib logic to plot graph
     #     Is it possinle to return a plot in a function?

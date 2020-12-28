@@ -3,6 +3,7 @@ from flask_login import current_user, login_required
 from flaskPracticalWebapp import db
 from flaskPracticalWebapp.models import Practical
 from flaskPracticalWebapp.practicals.forms import PracticalForm
+from flaskPracticalWebapp.practicals.utils import getDegStudyTitle, getSubjectTitle
 
 practicals = Blueprint("practicals", __name__)
 # Need to determine the logic for routing the practicals
@@ -10,9 +11,7 @@ practicals = Blueprint("practicals", __name__)
 @practicals.route('/<degStudy>/<subject>')
 def degStudy_subject(degStudy, subject):
     practicals = Practical.query.filter_by(degStudy=degStudy,subject=subject).filter(((Practical.user_id==current_user.id) | (Practical.default==True)) if current_user.is_authenticated else (Practical.default==True)).all()
-
-
-    title= f"{degStudy} {subject}"
+    title= f"{getDegStudyTitle(degStudy)} {getSubjectTitle(subject)}"
     return render_template("degStudy_subject.html", title=title, practicals=practicals)
 
 @practicals.route('/<degStudy>/<subject>/new-practical', methods=["GET", "POST"])
@@ -54,8 +53,8 @@ def update_practical(degStudy, subject, practical_id):
         # If a default practical is returned, an instance of that practical will be created specific to the user trying to update the practical
         if practical.default == True:
             practical = Practical(title=form.title.data,
-                                  degStudy=form.degStudy.data,
-                                  subject=form.subject.data,
+                                  degStudy=form.degStudy.data.lower(),
+                                  subject=form.subject.data.lower(),
                                   equipment=form.equipment.data,
                                   method=form.method.data,
                                   default=False,
@@ -63,8 +62,8 @@ def update_practical(degStudy, subject, practical_id):
             db.session.add(practical)
         else:
             practical.title=form.title.data
-            practical.degStudy=form.degStudy.data
-            practical.subject=form.subject.data
+            practical.degStudy=form.degStudy.data.lower()
+            practical.subject=form.subject.data.lower()
             practical.equipment=form.equipment.data
             practical.method=form.method.data
         db.session.commit()
@@ -72,8 +71,8 @@ def update_practical(degStudy, subject, practical_id):
         return redirect(url_for("practicals.practical", degStudy=practical.degStudy, subject=practical.subject, practical_id=practical.id))
     elif request.method == "GET":
         form.title.data = practical.title
-        form.degStudy.data = practical.degStudy
-        form.subject.data = practical.subject
+        form.degStudy.data = getDegStudyTitle(practical.degStudy)
+        form.subject.data = getSubjectTitle(practical.subject)
         form.equipment.data = practical.equipment
         form.method.data = practical.method
     return render_template("create_practical.html", title="Update Practical", form=form)
