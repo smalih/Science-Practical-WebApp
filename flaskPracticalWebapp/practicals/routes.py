@@ -1,9 +1,11 @@
 from flask import Blueprint, render_template, url_for, flash, redirect, request, abort
 from flask_login import current_user, login_required
+from datetime import datetime
 from flaskPracticalWebapp import db
 from flaskPracticalWebapp.models import Practical
 from flaskPracticalWebapp.practicals.forms import PracticalForm
 from flaskPracticalWebapp.practicals.utils import getDegStudyTitle, getSubjectTitle
+
 
 practicals = Blueprint("practicals", __name__)
 # Need to determine the logic for routing the practicals
@@ -24,6 +26,7 @@ def new_practical(degStudy, subject):
                               subject=form.subject.data.lower(),
                               equipment=form.equipment.data,
                               method=form.method.data,
+                              date_created=datetime.utcnow(),
                               user_id=current_user.id)
         db.session.add(practical)
         db.session.commit()
@@ -58,6 +61,7 @@ def update_practical(degStudy, subject, practical_id):
                                   equipment=form.equipment.data,
                                   method=form.method.data,
                                   default=False,
+                                  date_modified=datetime.utcnow(),
                                   user_id=current_user.id)
             db.session.add(practical)
         else:

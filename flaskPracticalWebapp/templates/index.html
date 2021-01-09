@@ -3,13 +3,14 @@
   {% for practical in practicals.items %}
     <article class="media content-section">
       <div class="media-body">
-        <div class="article-metadata">
-          <a class="mr-2" href="#">{{ practical.author.firstname }} {{ practical.author.surname }}</a>
-        </div>
-
         <h2><a class="article-title" href="{{ url_for('practicals.practical', practical_id=practical.id, degStudy=practical.degStudy, subject=practical.subject) }}">{{ practical.title}}</a></h2>
         <p><small>Degree of Study: {{ practical.degStudy }}</small></p>
         <p><small>Subject: {{ practical.subject }}</small></p>
+        {% if practical.date_modified %}
+          <p><small>Last Modified: {{ practical.date_modified}}</small></p>
+        {% else %}
+          <p><small>Date Created: {{ practical.date_created }}</small></p>
+        {% endif %}
         <p classs="article-content">{{ practical.method }}</p>
       </div>
     </article>

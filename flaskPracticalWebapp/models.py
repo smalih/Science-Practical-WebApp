@@ -44,7 +44,7 @@ class Practical(db.Model):
     equipment = db.Column(db.Text, default="Temp Equipment")
     method = db.Column(db.Text, default="Temp Method")
     safety = db.Column(db.String, default="Wear safety goggles")
-    # practical_data = db.relationship("Practical_Data", backref="practical", lazy=True)
+    # practical_data = db.relationship("Practical_Data", backref="parent", lazy=True)
     # in_var = db.Column(db.String(100), default="", nullable=False)
     # dep_var = db.Column(db.String(100), default="", nullable=False)
     # con_var = db.Column(db.String(100), default="", nullable=False)
@@ -70,4 +70,4 @@ class Practical(db.Model):
 #     title = db.Column(db.String(60), nullable="False")
 #     graphType = db.column(db.String(4), default="Line")
 #     # parent practical
-#     ppractical = db.column(db.Integer, db.ForeignKey("practical.id"), nullable=False, primary_key=True)
+#     Ppractical = db.column(db.Integer, db.ForeignKey("practical.id"), nullable=False, primary_key=True)
