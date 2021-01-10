@@ -10,7 +10,8 @@ def load_user(user_id):
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
-    # username = db.Column(db.String(15, unique=True))
+    # default username="guest<random 16 hash>"
+    username = db.Column(db.String(15), unique=True)
     fname = db.Column(db.String(30), default="")
     surname = db.Column(db.String(30), default="")
     email = db.Column(db.String(120), unique=True, nullable=False)
@@ -45,18 +46,11 @@ class Practical(db.Model):
     method = db.Column(db.Text, default="Temp Method")
     safety = db.Column(db.String, default="Wear safety goggles")
     # practical_data = db.relationship("Practical_Data", backref="parent", lazy=True)
-    # in_var = db.Column(db.String(100), default="", nullable=False)
-    # dep_var = db.Column(db.String(100), default="", nullable=False)
-    # con_var = db.Column(db.String(100), default="", nullable=False)
-    default = db.Column(db.Boolean, default=True, nullable=False)
-    # date_created = db.Column(db.String(10), nullable=False)
-    # date_modified = db.Column(db.String(10), default="")
-    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False, default=1)
 
-    # def plot_practical(practical_data):
-    #     Fill in numpy, pandas and matplotlib logic to plot graph
-    #     Is it possinle to return a plot in a function?
-    #     Plotting logic can also be done at routes
+    default = db.Column(db.Boolean, default=True, nullable=False)
+    date_created = db.Column(db.String(10), nullable=False)
+    date_modified = db.Column(db.String(10), default="")
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False, default=1)
 
     def __repr__(self):
         return f'''
@@ -66,8 +60,16 @@ class Practical(db.Model):
 
         {self.method}'''
 
-# class Practical_Data(db.Model):
-#     title = db.Column(db.String(60), nullable="False")
-#     graphType = db.column(db.String(4), default="Line")
-#     # parent practical
-#     Ppractical = db.column(db.Integer, db.ForeignKey("practical.id"), nullable=False, primary_key=True)
+class PracticalData(db.Model):
+    title = db.Column(db.String(60), nullable="False")
+    graphType = db.Column(db.String(4), default="Line")
+    in_var = db.Column(db.String(100), default="", nullable=False)
+    dep_var = db.Column(db.String(100), default="", nullable=False)
+    con_var = db.Column(db.String(100), default="", nullable=False)
+    # parent practical
+    practical_id = db.Column(db.Integer, db.ForeignKey("practical.id"), nullable=False, primary_key=True)
+
+    # def plot_practical(practical_data):
+    #     Fill in numpy, pandas and matplotlib logic to plot graph
+    #     Is it possinle to return a plot in a function?
+    #     Plotting logic can also be done at routes

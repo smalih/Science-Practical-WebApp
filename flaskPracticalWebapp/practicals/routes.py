@@ -3,7 +3,7 @@ from flask_login import current_user, login_required
 from datetime import datetime
 from flaskPracticalWebapp import db
 from flaskPracticalWebapp.models import Practical
-from flaskPracticalWebapp.practicals.forms import PracticalForm
+from flaskPracticalWebapp.practicals.forms import PracticalForm, PracticalDataForm
 from flaskPracticalWebapp.practicals.utils import getDegStudyTitle, getSubjectTitle
 
 
@@ -79,7 +79,7 @@ def update_practical(degStudy, subject, practical_id):
         form.subject.data = getSubjectTitle(practical.subject)
         form.equipment.data = practical.equipment
         form.method.data = practical.method
-    return render_template("create_practical.html", title="Update Practical", form=form)
+    return render_template("create_practical.html", title=title, form=form)
 
 @practicals.route('/<degStudy>/<subject>/<practical_id>/delete', methods=["POST"])
 @login_required
@@ -91,3 +91,14 @@ def delete_practical(degStudy, subject, practical_id):
     db.session.commit()
     flash(message, category)
     return redirect(url_for("main.home"))
+@practicals.route('/<degStudy>/<subject>/<practical_id>/data')
+def practical_data():
+    form = PracticalDataForm()
+    if form.validate_on_submit:
+        data = PracticalData(title=form.title.data,
+                            graphType = form.graph.data,
+                            in_var=form.in_var.data,
+                            dep_var=form.dep_var.data,
+                            con_var=fomr.con_var.data,
+                            practical_id=practical_id)
+    return render_template("practical_data.html", title=title, form=form)

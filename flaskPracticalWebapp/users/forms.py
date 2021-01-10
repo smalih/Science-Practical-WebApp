@@ -1,3 +1,4 @@
+import re
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
 from flask_login import current_user
@@ -20,7 +21,7 @@ class RegistrationForm(FlaskForm):
                             "id": "email",
                             "type": "email",
                             "placeholder": "Email"
-                        })
+                            })
     # Sort out Date format in html and when submiting forms
     dob = DateField(label="Date of Birth", format="%d/%m/%Y")
     password = PasswordField(label='Password', validators=[DataRequired(), Length(min=8, max=20)],
@@ -28,14 +29,14 @@ class RegistrationForm(FlaskForm):
                                     "id": "password",
                                     "type": "password",
                                     "placeholder": "Password"
-                                })
+                                    })
     confirm_password = PasswordField(label='Confirm Password',
                                      validators=[DataRequired(), EqualTo('password')],
                                      render_kw={
                                         "id": "confirm_password",
                                         "type": "password",
                                         "placeholder": "Confirm Password"
-                                    })
+                                        })
     submit = SubmitField('Register')
 
     def validate_email(self, email):
@@ -43,6 +44,20 @@ class RegistrationForm(FlaskForm):
         if user:
             raise ValidationError("An account with that email already exists.")
 
+class UsernameForm(FlaskForm):
+    username = StringField(label="Username", validators=[DataRequired(), Length(min=5, max=15))
+
+    def validate_username(self, username):
+        excluded_chars = re.compile("\W")
+        ec = excluded_chars.findall(username)
+        hasdigit = re.compile("\d")
+        user = User.query.filter_by(username=username).first()
+        if user:
+            raise ValidationError("An account with that username already exists. Please try a different one")
+        if ec:
+            raise ValidationError(f'Special character(s) {ec} are not allowed.')
+        if not(hasdigit.search(username)):
+            raise ValidationError("Your username must include atleast one digit.")
 class LoginForm(FlaskForm):
     email = StringField(label='Email',validators=[DataRequired(), Email()],
                         render_kw={"autofocus": True,

@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, url_for, flash, redirect, request
 from flask_login import login_user, current_user, logout_user, login_required
 from flaskPracticalWebapp import db, bcrypt
 from flaskPracticalWebapp.models import User
-from flaskPracticalWebapp.users.forms import (RegistrationForm, LoginForm, UpdateAccountForm,
+from flaskPracticalWebapp.users.forms import (RegistrationForm, UsernameForm, LoginForm, UpdateAccountForm,
                                         RequestResetForm, ResetPasswordForm)
 from flaskPracticalWebapp.users.utils import save_profile_pic, send_reset_email
 
@@ -19,9 +19,20 @@ def register():
         db.session.add(user)
         db.session.commit()
         flash("Your account has been successfully created! Please login.", "success")
-        return redirect(url_for("users.login"))
+        return redirect(url_for("users.set_username"))
     return render_template("register.html", title=title, form=form)
 
+@users.route("/set-username")
+def set_username():
+    title="Set Username"
+    form = UsernameForm()
+    if form.validate_on_submit():
+        user.username = form.username.data
+        db.session.commit()
+        flash("Your account has been successfully created! Please login.", "success")
+        return redirect(url_for("users.login"))
+    return render_template("set-username.html", title=title, form=form)
+    
 @users.route('/login', methods=["GET", "POST"])
 def login():
     if current_user.is_authenticated:
