@@ -17,3 +17,4 @@ class PracticalDataForm(FlaskForm):
     dep_var = StringField("Dependent Variable", validators=[DataRequired(), Length(max=15)], render_kw={"placeholder": "Lipids Concentration"}))
     con_var = StringField("Control Variable(s)", validators=[DataRequired(), Length(max=15)], render_kw={"placeholder": "Volume of Lipase Solution, ..."}))
     graphType = SelectField("Graph", validators=[DataRequired()], choices=["Line", "Bar"])
+    submit = SubmitField("Save Results")
