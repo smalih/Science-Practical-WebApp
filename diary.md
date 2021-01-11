@@ -15,4 +15,5 @@ This diary will help me keep track of progress made, and what needs to be done. 
   <li>Convert data into a pandas df (to use for plotting with numpy)</li>
   <li>Connvert data into SQL for storage in practical data db</li>
   <li>Design and code logic for plot_practical method - Are there better alternatives for more sophisticated data visualisation?</li>
+  <li>Unit Testing</li>
 </ul>
