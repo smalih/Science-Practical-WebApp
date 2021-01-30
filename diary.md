@@ -10,7 +10,8 @@ This diary will help me keep track of progress made, and what needs to be done. 
 
 ### Tasks:
 <ul>
-  <li>Add a column to practical data db that stores practical data pandas df</li>
+  <s><li>Add a column to practical data db that stores practical data pandas df</li></s>
+  <li>Create a practical data table that will store practical data read in from pandas df</li>
   <li>POST data from the html table to the backend</li>
   <li>Convert data into a pandas df (to use for plotting with numpy)</li>
   <li>Connvert data into SQL for storage in practical data db</li>
