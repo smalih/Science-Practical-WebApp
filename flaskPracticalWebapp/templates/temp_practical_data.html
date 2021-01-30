@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block content %}
+  <form method="POST" action="">
+  <table>
+    <tr>
+      <th></th>
+      <th>{{ in_var }}</th>
+    </tr>
+    <tr>
+      <th>{{ dep_var }}</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>Mean</th>
+    </tr>
+    <tr>
+        <td><input type="text"></td>
+        <td><input type="number"></td>
+        <td><input type="number"></td>
+        <td><input type="number"></td>
+        <td><input type="number" disabled></td>
+    </tr>
+    <tr>
+        <td><input type="text"></td>
+        <td><input type="number"></td>
+        <td><input type="number"></td>
+        <td><input type="number"></td>
+        <td><input type="number" disabled></td>
+    </tr>
+    <tr>
+        <td><input type="text"></td>
+        <td><input type="number"></td>
+        <td><input type="number"></td>
+        <td><input type="number"></td>
+        <td><input type="number" disabled></td>
+    </tr>
+    <tr>
+        <td><input type="text"></td>
+        <td><input type="number"></td>
+        <td><input type="number"></td>
+        <td><input type="number"></td>
+        <td><input type="number" disabled></td>
+    </tr>
+    <tr>
+        <td><input type="text"></td>
+        <td><input type="number"></td>
+        <td><input type="number"></td>
+        <td><input type="number"></td>
+        <td><input type="number" disabled></td>
+    </tr>
+  </table>
+  {{ form.submit(class="btn btn-lg btn-primary btn-block text-uppercase" name="submit_data") }}
+  </form>
+{% endblock %}

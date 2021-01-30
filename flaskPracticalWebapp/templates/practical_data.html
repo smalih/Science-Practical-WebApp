@@ -1,54 +1,230 @@
 {% extends "base.html" %}
 {% block content %}
-  <form method="POST" action="">
-  <table>
-    <tr>
-      <th></th>
-      <th>{{ in_var }}</th>
-    </tr>
-    <tr>
-      <th>{{ dep_var }}</th>
-      <th>1</th>
-      <th>2</th>
-      <th>3</th>
-      <th>Mean</th>
-    </tr>
-    <tr>
-        <td><input type="text"></td>
-        <td><input type="text"></td>
-        <td><input type="text"></td>
-        <td><input type="text"></td>
-        <td><input type="text"></td>
-    </tr>
-    <tr>
-        <td><input type="text"></td>
-        <td><input type="text"></td>
-        <td><input type="text"></td>
-        <td><input type="text"></td>
-        <td><input type="text"></td>
-    </tr>
-    <tr>
-        <td><input type="text"></td>
-        <td><input type="text"></td>
-        <td><input type="text"></td>
-        <td><input type="text"></td>
-        <td><input type="text"></td>
-    </tr>
-    <tr>
-        <td><input type="text"></td>
-        <td><input type="text"></td>
-        <td><input type="text"></td>
-        <td><input type="text"></td>
-        <td><input type="text"></td>
-    </tr>
-    <tr>
-        <td><input type="text"></td>
-        <td><input type="text"></td>
-        <td><input type="text"></td>
-        <td><input type="text"></td>
-        <td><input type="text"></td>
-    </tr>
-  </table>
-  {{ form.submit(class="btn btn-lg btn-primary btn-block text-uppercase") }}
-  </form>
+<form method="POST" action="">
+  {{ form.hidden_tag() }}
+  <div class="form-label-group">
+    {{ form.title.label }}
+    {% if form.title.errors %}
+      {{ form.title(class="form-control is-invalid") }}
+      <div class="invalid-feedback">
+        {% for error in form.title.errors %}
+          <span>{{ error }}</span>
+        {% endfor %}
+      </div>
+    {% else %}
+      {{ form.title(class="form-control") }}
+    {% endif %}
+  </div>
+
+  <div class="form-label-group">
+    {{ form.con_var.label }}
+    {% if form.con_var.errors %}
+      {{ form.con_var(class="form-control is-invalid") }}
+      <div class="invalid-feedback">
+        {% for error in form.con_var.errors %}
+          <span>{{ error }}</span>
+        {% endfor %}
+      </div>
+    {% else %}
+      {{ form.con_var(class="form-control") }}
+    {% endif %}
+  </div>
+
+  <div class="form-label-group">
+    {{ form.graphType.label }}
+    {% if form.graphType.errors %}
+      {{ form.graphType(class="form-control is-invalid") }}
+      <div class="invalid-feedback">
+        {% for error in form.graphType.errors %}
+          <span>{{ error }}</span>
+        {% endfor %}
+      </div>
+    {% else %}
+      {{ form.graphType(class="form-control") }}
+    {% endif %}
+  </div>
+{{ form.submit(class="btn btn-lg btn-primary btn-block text-uppercase" name="submit_metadata") }}
+
+
+<!--Form errors for table-->
+{% if form.in_var.errors %}
+  {{ form.in_var(class="form-control is-invalid") }}
+  <div class="invalid-feedback">
+    {% for error in form.in_var.errors %}
+      <span>{{ error }}</span>
+    {% endfor %}
+  </div>
+
+{% if form.dep_var.errors %}
+  {{ form.dep_var(class="form-control is-invalid") }}
+  <div class="invalid-feedback">
+    {% for error in form.dep_var.errors %}
+      <span>{{ error }}</span>
+    {% endfor %}
+  </div>
+
+{% if form.dep_var.errors %}
+  {{ form.dep_var(class="form-control is-invalid") }}
+  <div class="invalid-feedback">
+    {% for error in form.dep_var.errors %}
+      <span>{{ error }}</span>
+    {% endfor %}
+  </div>
+
+  {% if form.dep_var.errors %}
+    {{ form.dep_var(class="form-control is-invalid") }}
+    <div class="invalid-feedback">
+      {% for error in form.dep_var.errors %}
+        <span>{{ error }}</span>
+      {% endfor %}
+    </div>
+
+    {% if form.dep_var.errors %}
+      {{ form.dep_var(class="form-control is-invalid") }}
+      <div class="invalid-feedback">
+        {% for error in form.dep_var.errors %}
+          <span>{{ error }}</span>
+        {% endfor %}
+      </div>
+<!--End of form errors-->
+<!--Start of table-->
+
+<table>
+  <tr>
+    <th></th>
+    <th>
+      <div class="form-label-group">
+        {{ form.in_var(class="form-control") }}
+      </div>
+    </th>
+  </tr>
+  <tr>
+    <th>
+      <div class="form-label-group">
+        {{ form.dep_var(class="form-control") }}
+      </div>
+    </th>
+    <th>{{ form.trial1.label }}</th>
+    <th>{{ form.trial2.label }}</th>
+    <th>{{ form.trial3.label }}</th>
+    <th>{{ form.mean.label }}</th>
+  </tr>
+  <tr>
+      <td><input type="text"></td>
+      <td>
+        <div class="form-label-group">
+          {{ form.trial1(class="form-control") }}
+        </div>
+      </td>
+      <td>
+        <div class="form-label-group">
+          {{ form.trial2(class="form-control") }}
+        </div>
+      </td>
+      <td>
+        <div class="form-label-group">
+          {{ form.trial3(class="form-control") }}
+        </div>
+      </td>
+      <td>
+        <div class="form-label-group">
+          {{ form.mean(class="form-control") }}
+        </div>
+      </td>
+  </tr>
+  <tr>
+      <td><input type="text"></td>
+      <td>
+        <div class="form-label-group">
+          {{ form.trial1(class="form-control") }}
+        </div>
+      </td>
+      <td>
+        <div class="form-label-group">
+          {{ form.trial2(class="form-control") }}
+        </div>
+      </td>
+      <td>
+        <div class="form-label-group">
+          {{ form.trial3(class="form-control") }}
+        </div>
+      </td>
+      <td>
+        <div class="form-label-group">
+          {{ form.mean(class="form-control") }}
+        </div>
+      </td>
+  </tr>
+  <tr>
+      <td><input type="text"></td>
+      <td>
+        <div class="form-label-group">
+          {{ form.trial1(class="form-control") }}
+        </div>
+      </td>
+      <td>
+        <div class="form-label-group">
+          {{ form.trial2(class="form-control") }}
+        </div>
+      </td>
+      <td>
+        <div class="form-label-group">
+          {{ form.trial3(class="form-control") }}
+        </div>
+      </td>
+      <td>
+        <div class="form-label-group">
+          {{ form.mean(class="form-control") }}
+        </div>
+      </td>
+  </tr>
+  <tr>
+      <td><input type="text"></td>
+      <td>
+        <div class="form-label-group">
+          {{ form.trial1(class="form-control") }}
+        </div>
+      </td>
+      <td>
+        <div class="form-label-group">
+          {{ form.trial2(class="form-control") }}
+        </div>
+      </td>
+      <td>
+        <div class="form-label-group">
+          {{ form.trial3(class="form-control") }}
+        </div>
+      </td>
+      <td>
+        <div class="form-label-group">
+          {{ form.mean(class="form-control") }}
+        </div>
+      </td>
+  </tr>
+  <tr>
+      <td><input type="text"></td>
+      <td>
+        <div class="form-label-group">
+          {{ form.trial1(class="form-control") }}
+        </div>
+      </td>
+      <td>
+        <div class="form-label-group">
+          {{ form.trial2(class="form-control") }}
+        </div>
+      </td>
+      <td>
+        <div class="form-label-group">
+          {{ form.trial3(class="form-control") }}
+        </div>
+      </td>
+      <td>
+        <div class="form-label-group">
+          {{ form.mean(class="form-control") }}
+        </div>
+      </td>
+  </tr>
+</table>
+{{ form.submit(class="btn btn-lg btn-primary btn-block text-uppercase" name="submit_data") }}
+</form>
 {% endblock %}

@@ -45,8 +45,7 @@ class Practical(db.Model):
     equipment = db.Column(db.Text, default="Temp Equipment")
     method = db.Column(db.Text, default="Temp Method")
     safety = db.Column(db.String, default="Wear safety goggles")
-    # practical_data = db.relationship("Practical_Data", backref="parent", lazy=True)
-
+    practical_data = db.relationship("Practical_Data", backref="parent", lazy=True)
     default = db.Column(db.Boolean, default=True, nullable=False)
     date_created = db.Column(db.String(10), nullable=False)
     date_modified = db.Column(db.String(10), default="")
@@ -63,13 +62,27 @@ class Practical(db.Model):
 class PracticalData(db.Model):
     title = db.Column(db.String(60), nullable="False")
     graphType = db.Column(db.String(4), default="Line")
-    in_var = db.Column(db.String(100), default="", nullable=False)
-    dep_var = db.Column(db.String(100), default="", nullable=False)
-    con_var = db.Column(db.String(100), default="", nullable=False)
+    variables = db.relationship("Variables", backref="parent_data", lazy=True)
+    # default in form [Float, Boolean] where the float is the valye and the Boolean represents whether the result in anomalous or not
+
+    trials = db.relationship("Trials", backref="parent_data", lazy=True)
     # parent practical
     practical_id = db.Column(db.Integer, db.ForeignKey("practical.id"), nullable=False, primary_key=True)
+    # intervals
 
     # def plot_practical(practical_data):
     #     Fill in numpy, pandas and matplotlib logic to plot graph
     #     Is it possinle to return a plot in a function?
     #     Plotting logic can also be done at routes
+
+class Trials(db.Model):
+    anomalous = db.Column(db.Boolean, default=False, nullable=True)
+    dv_value = db.Column(db.StringField, default='0', nullable=True)
+    value = db.Column(db.Float, default=0.0, nullable=False)
+    trial_no = db.Column(db.Integer, default=1, nullable=False)
+    practical_data = db.Column(db.Integer, db.ForeignKey('practical.id'), nullable=False)
+
+class Variables(db.Model):
+    value = db.Column(db.String(100), default="", nullable=False)
+    type = db.Column(db.String(2), default="IV", nullable=False)
+    practical_data = db.Column(db.Integer, db.ForeignKey('practical.id'), nullable=False)

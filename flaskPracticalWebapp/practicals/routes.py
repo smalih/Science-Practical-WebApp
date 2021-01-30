@@ -93,12 +93,36 @@ def delete_practical(degStudy, subject, practical_id):
     return redirect(url_for("main.home"))
 @practicals.route('/<degStudy>/<subject>/<practical_id>/data')
 def practical_data():
-    form = PracticalDataForm()
-    if form.validate_on_submit:
-        data = PracticalData(title=form.title.data,
-                            graphType = form.graph.data,
-                            in_var=form.in_var.data,
-                            dep_var=form.dep_var.data,
-                            con_var=fomr.con_var.data,
-                            practical_id=practical_id)
+    form_metadata = None
+    form_data = None
+
+    if 'submit_metadata' in request.form:
+        form_metadata = PracticalDataForm_Metadata()
+        do_metadata(form_metadata)
+    elif 'submit_data' in request.form:
+        form_data = PracticalDataForm_Data()
+        do_data(form_data)
+
+
+
+    def do_metadata(form):
+        if form.validate_on_submit():
+
+            metadata = PracticalData(title=form.title.data,
+                                graphType = form.graphType.data,
+                                con_var=form.con_var.data)
+            db.session.add(metadata)
+            db.session.commit()
+            flash("Your practical metadata has been saved!")
+    def do_data(form):
+        if form.validate_on_submit():
+            # Need to workout logic for posting parsing trial numbers so that each trial has a corresponding dv
+            trials = Trials(anomalous=form.anomalous.data,
+                            dv_value=form.dv_value.data,
+                            value=form.value.data,
+                            trial_no = form.trial_no.data)
+            db.session.add(metadata)
+            db.session.commit()
+            flash("Your practical metadata has been saved!")
+
     return render_template("practical_data.html", title=title, form=form)
