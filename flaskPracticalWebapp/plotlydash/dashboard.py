@@ -7,11 +7,10 @@ def create_dashboard(server):
     dash_app = dash.Dash(
         server=server,
         routes_pathname_prefix='/dashapp/',
-        external_stylesheets=['\static\css\\bootstrap.min.css']
-    )
+        assets_external_path='https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css')
 
     practicals = Practical.query.all()
 
-    dash_app.layout = html.Div([cl.list_practicals(practical) for practical in practicals])
-
+    dash_app.layout = html.Div(cl.base_layout(content=[cl.list_practical(practical) for practical in practicals],
+                                            title='Dashboard'))
     return dash_app.server
