@@ -35,4 +35,6 @@ def create_app(config_class=Config):
     app.register_blueprint(main)
     app.register_blueprint(errors)
 
+    from flaskPracticalWebapp.plotlydash.dashboard import create_dashboard
+    app = create_dashboard(app)
     return app
