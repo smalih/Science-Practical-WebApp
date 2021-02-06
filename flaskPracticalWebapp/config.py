@@ -1,6 +1,7 @@
 import os
 class Config:
     SECRET_KEY = os.environ.get("SECRET_KEY")
+    SERVER_NAME =  'localhost:5000'
     SQLALCHEMY_DATABASE_URI = os.environ.get("SQLALCHEMY_DATABASE_URI")
     MAIL_SERVER = "smtp.googlemail.com"
     MAIL_USE_TLS = True
