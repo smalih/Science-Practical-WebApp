@@ -4,7 +4,7 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_mail import Mail
 from flaskPracticalWebapp.config import Config
-
+from flask_assets import Environment
 
 
 db = SQLAlchemy()
@@ -37,4 +37,6 @@ def create_app(config_class=Config):
 
         from flaskPracticalWebapp.plotlydash.dashboard import create_dashboard
         app = create_dashboard(app)
+
+
         return app

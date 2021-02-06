@@ -9,4 +9,4 @@ class Config:
     MAIL_USERNAME = os.environ.get("EMAIL_USER")
     MAIL_PASSWORD = os.environ.get("EMAIL_PASS")
 
-    include_asset_files = True
+    STATIC_FOLDER = 'static'
