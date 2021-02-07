@@ -24,15 +24,17 @@ Another problem is styling the Dash html. I know how to apply a stylesheet withi
 
 ### Tasks:
 <ul>
-  <Apply css stylesheet(s) to Dash html</li>
+  <li>Apply css stylesheet(s) to Dash html</li>
   <li>Create a practical data table that will store practical data read in from pandas df</li>
-  <li>Practical (Routes)</li>
+</ul>
+  <li>Practical (Routes)
   <ol>
-    <li>Logic for parsing data sent from the client-side (html table mainl)</li>
+    <li>Logic for parsing data sent from the client-side (html table main)</li>
     <li>POST data from the html table to the backend</li>
-   </ol>
+  </ol></li>
+<ul>  
   <li>Convert data into a pandas df (to use for plotting with numpy)</li>
   <li>Connvert data into SQL for storage in practical data db</li>
-  <li>Design and code logic for plot_practical method - Are there better alternatives for more sophisticated data visualisation?</li>
+  <li><s>Design and code logic for plot_practical method - Are there better alternatives for more sophisticated data visualisation?</s></li>
   <li>Unit Testing</li>
 </ul>
