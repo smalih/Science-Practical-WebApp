@@ -1,44 +1,48 @@
 import dash
 from dash.dependencies import Input, Output
-import dash_html_components as html
-import dash_core_components as dcc
 import dash_table
+import dash_core_components as dcc
+import dash_html_components as html
 import pandas as pd
+
 app = dash.Dash(__name__)
 
+params = [f'Trial {x+1}' for x in range(3)]
 intervals = ['10', '20', '30', '40', '50']
 
-trials = ['5', '6', '8', '7']
-
-app.layout = html.Div([dash_table.DataTable(
-        id='results-table',
+app.layout = html.Div([
+    dash_table.DataTable(
+        id='table-editing-simple',
         columns=(
             [{'id': 'DV', 'name': 'DV'}] +
-            [{'id': f'Trial {x+1}', 'name': f'Trial {x+1}'} for x in range(len(trials))]
+            [{'id': p, 'name': p} for p in params]
         ),
         data=[
-            dict(DV=interval, **{trial: 0 for trial in trials })
+            dict(DV=interval, **{param: 0 for param in params})
             for interval in intervals
         ],
         editable=True
     ),
-    dcc.Graph(id='test-graph')
+    dcc.Graph(id='table-editing-simple-output')
 ])
-    
+
+
 @app.callback(
-    Output('test-graph', 'figure'),
-    Input('results-table', 'data'),
-    Input('results-table', 'columns'))
+    Output('table-editing-simple-output', 'figure'),
+    Input('table-editing-simple', 'data'),
+    Input('table-editing-simple', 'columns'))
 def display_output(rows, columns):
-    df = pd.DataFrame(rows, columns=[c['name'] for c in columns[1:]])
+    print(rows)
+    df = pd.DataFrame(rows, columns=[c['name'] for c in columns])
     return {
         'data': [{
             'type': 'line',
             'x': intervals,
-            'y': df[columns[1]['id']]
-        }]
+            'y': [row['Trial 1'] for row in rows]
+            }]
     }
 
 
 if __name__ == '__main__':
     app.run_server(debug=True)
+
