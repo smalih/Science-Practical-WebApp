@@ -4,10 +4,9 @@ from flaskPracticalWebapp.plotlydash import content_layout as cl
 from flaskPracticalWebapp.models import Practical
 from flask_login import current_user
 def create_dashboard(server):
-    dash_app = dash.Dash(
+    dash_app = dash.Dash(__name__,
         server=server,
-        routes_pathname_prefix='/dashapp/',
-        assets_external_path='https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css')
+        routes_pathname_prefix='/dashapp/')
 
     practicals = Practical.query.all()
 
