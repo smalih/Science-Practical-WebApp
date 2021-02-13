@@ -10,6 +10,19 @@ def practical_view(server):
     intervals = ['10', '20', '30', '40', '50']
 
     dash_app_practical.layout = html.Div([
+        html.Label('Independent Variable'),
+         dcc.Input(id='independent_variable',
+                placeholder='Independent Variable',
+                value=''
+        ),
+
+        html.Label('Dependent Variable'),
+        dcc.Input(
+            id='dependent_variable',
+            placeholder='Dependent Variable',
+            value=''
+        ),
+
         dash_table.DataTable(
             id='table-editing-simple',
             columns=(
@@ -22,9 +35,17 @@ def practical_view(server):
             ],
             editable=True
         ),
+        html.Button('Mark Anomalous', id='anomalous-button'),
         dcc.Graph(id='table-editing-simple-output')
     ])
 
+    @dash_app_practical.callback(
+        Output('table-editing-simple', 'columns'),
+        Input('table-editing-simple', 'columns'),
+        Input('dependent_variable', 'value'))
+    def display_DV_in_table(columns, dv='Dependent Variable'):
+        columns[0]['id'] = columns[0]['name'] = dv
+        return columns
 
     @dash_app_practical.callback(
         Output('table-editing-simple-output', 'figure'),
@@ -39,6 +60,8 @@ def practical_view(server):
                 'y': [row['Trial 1'] for row in rows]
                 }]
         }
+    # @dash_app_practical.callback()
+    # def mark_anomalous()
 
     return dash_app_practical.server
 
