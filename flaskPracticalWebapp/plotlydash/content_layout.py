@@ -3,6 +3,41 @@ import dash_html_components as html
 from flask import url_for
 from flask_login import current_user
 
+### Dash Application Mode ###
+
+
+def practical_page(practical):
+    pass
+
+def edit_practical(practical):
+    pass
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 def base_layout(title, content):
     display_in_user =  'INSERT PROFILE PIC'
     authenticated_html = html.Div([
@@ -14,7 +49,7 @@ def base_layout(title, content):
         if current_user.is_authenticated:
             authenticated_html = html.Div([
                                     html.Li(html.A('Favoruties', href='#', className='nav-link'), className='nav-item'),
-                                    # Utilise Dash components for dropdown ites
+                                    # Utilise Dash components for dropdown items
                                     html.Li([
                                         html.A(display_in_user, href='#', className='nav-link dropdown-toggle', role='button', **{'data-toggle': 'dropdown',
                                                                                                                                 'aria-haspopup': 'true',
@@ -75,6 +110,7 @@ def base_layout(title, content):
 
 
 def list_practical(practical):
+
     return html.Div(
             html.Article([
                 html.Div([
@@ -87,3 +123,4 @@ def list_practical(practical):
                     html.P(f'{practical.method}', className='article-content')],
                 className='media-body')],
             className='media content-section'))
+
