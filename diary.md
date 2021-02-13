@@ -26,15 +26,14 @@ Another problem is styling the Dash html. I know how to apply a stylesheet withi
 
 This session has not been as productive as it could have been in terms of the final product you see, but in the background, I'm very happy with how things are moving. Although I have certainly exceeded the deadline to get this finished by Christmas, it is fair to say that I was inexperienced and ignorant even, failing to see just what exactly this priject would require. Even know, I do not believe that I have a full grpasp of what this project will require, but that should not stop me from staying optimistic. I hope to complete this project by the start of the summer holidays (5 months to go) so I can spend the holidays focusing more on preparing for admissions tests and doing LOTS of practice exams. However, time will tell. With how things are at the moment sutdying from school, it has allowed me to save hours upon hours by not having to travel to school, or between lessons. I am able to relax, due work, or even play the guitar during the ~10 minute gaps inbetween lessons. Concsequently, this has freed me up to spend mroe time on this project; however, things may not always be so and I need to take that into account.
 
-Next session, I want to work adding the identification of anomalous results function, seeting up the practicals form on the same page, and communicating such with information to the backend. I still need to consider th emsot efficient way to store the data table, do I store it all as a pandas df? DIOes that mean very singly practical results table will need to converted into a seperate db table. Maybe not everything has to be stored in a database.
+Next session, I want to work adding the identification of anomalous results function, seeting up the practicals form on the same page, and communicating such with information to the backend. I still need to consider th emsot efficient way to store the data table, do I store it all as a pandas df? DIOes that mean very singly practical results table will need to converted into a seperate db table. Maybe not everything has to be stored in a database. Finally, I intend to merge this branch into main if not today then within the next 3 days.
 
 Over the half-term period, I want to familiarise myself with the pandas framework, as well as numpy and plotly. I plan to deliver a tutorial on the Plotly Dash Framework within the next few weeks, this may then lead to me doing a more in-depth (and interesting) plotly tutorial (with fancy data visuals) if requested. 
 
 ### Tasks:
 <ul>
-  <li><s>Apply css stylesheet(s) to Dash html<s></li>
+  <li><s>Apply css stylesheet(s) to Dash html</s></li>
   <li>Create a practical data table that will store practical data read in from pandas df</li>
-  <li>
 </ul>
 <ul>
   <li>Add anomaly identification functionality</li>
@@ -46,7 +45,7 @@ Over the half-term period, I want to familiarise myself with the pandas framewor
     <li>POST data from the html table to the backend</li>
   </ol>
   </li>
-  <li>Convert data into a pandas df (to use for plotting with <s>numpy<s> plotly dash)</li>
+  <li>Convert data into a pandas df (to use for plotting with <s>numpy</s> plotly dash)</li>
   <li>Connvert data into SQL for storage in practical data db</li>
   <li><s>Design and code logic for plot_practical method - Are there better alternatives for more sophisticated data visualisation?</s></li>
   <li>Unit Testing</li>
