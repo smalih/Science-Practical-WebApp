@@ -14,7 +14,6 @@ login_manager.login_message_category = "info"
 
 mail = Mail()
 
-
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(Config)
@@ -32,9 +31,6 @@ def create_app(config_class=Config):
         app.register_blueprint(practicals)
         app.register_blueprint(main)
         app.register_blueprint(errors)
-
-        # from flaskPracticalWebapp.plotlydash.dashboard import create_dashboard
-        # app = create_dashboard(app)
 
         from flaskPracticalWebapp.plotlydash.dash_practical import practical_view
         app = practical_view(app)
