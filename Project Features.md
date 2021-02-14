@@ -1,3 +1,4 @@
+# Project Features
 This document is designed to give the reader an idea of where the project is headed. For a more in-depth, bulleted, detailed todo list, view my [diary](diary.md).
 
 ## Contents
