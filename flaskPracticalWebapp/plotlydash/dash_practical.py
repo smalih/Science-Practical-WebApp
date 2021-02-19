@@ -35,7 +35,7 @@ def practical_view(server):
             ],
             editable=True
         ),
-        html.Button('Mark Anomalous', id='anomalous-button'),
+        html.Button('Mark Anomalous', id='anomalous-button', n_clicks=0),
         dcc.Graph(id='table-editing-simple-output')
     ])
 
@@ -60,8 +60,12 @@ def practical_view(server):
                 'y': [row['Trial 1'] for row in rows]
                 }]
         }
-    # @dash_app_practical.callback()
-    # def mark_anomalous()
+    # @dash_app_practical.callback(
+    #     Output('table-editing-simple', 'selected_cells'),
+    #     Input('anomalous-button', 'n_clicks'),
+    #     Input('table-editing-simple', 'selected_cells'))
+    # def mark_anomalous(anomalous_button, anomalous_cells):
+    #     print(anomalous_cells)
 
     return dash_app_practical.server
 
